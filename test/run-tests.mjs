@@ -113,7 +113,7 @@ test('硬性排除：纯前端 / 销售 / 多年经验', () => {
   assert.equal(hardExcluded({ title: 'C++开发实习生', description: '熟悉Socket网络编程' }, keywords), '');
 });
 
-test('打分：标题非 C++ 时根据正文具体 C++/系统方向强度决定是否保留', () => {
+test('打分：标题非 C++ 时根据正文主体是否为 C++ 决定是否保留', () => {
   const weak = scoreJob(normalizeJob({
     source: 'zhaopin',
     title: 'Python后端开发工程师',
@@ -124,6 +124,19 @@ test('打分：标题非 C++ 时根据正文具体 C++/系统方向强度决定�
     url: 'https://example.com/job/python-weak',
   }), profile, keywords);
   assert.equal(weak.tier, '观察');
+
+  const mainCxxOnly = scoreJob(normalizeJob({
+    source: 'zhaopin',
+    title: 'Python后端开发工程师',
+    company: '武汉某科技',
+    city: '武汉',
+    education: '本科及以上',
+    companyMeta: ['民营', '20-99人'],
+    description: '职位描述 核心业务使用 C++ 开发，参与工具模块研发，要求熟悉 C++ 语言和数据结构，本科及以上学历，2028届亦可。',
+    url: 'https://example.com/job/python-main-cpp',
+  }), profile, keywords);
+  assert.equal(mainCxxOnly.tier, '长期备选');
+  assert.match(mainCxxOnly.whyWorth, /标题主语言非 C\+\+，但 JD 主体是 C\+\+ 开发/);
 
   const strong = scoreJob(normalizeJob({
     source: 'zhaopin',
@@ -136,7 +149,7 @@ test('打分：标题非 C++ 时根据正文具体 C++/系统方向强度决定�
     url: 'https://example.com/job/python-strong-cpp',
   }), profile, keywords);
   assert.equal(strong.tier, '长期备选');
-  assert.match(strong.whyWorth, /标题主语言非 C\+\+，但 JD 正文有较明确 C\+\+\/系统方向要求/);
+  assert.match(strong.whyWorth, /标题主语言非 C\+\+，但 JD 主体是 C\+\+ 开发/);
 });
 
 test('打分：武汉 + C++/Socket/epoll + 本科友好 → 优先投', () => {
