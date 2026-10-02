@@ -70,3 +70,14 @@
 - Gmail 应用专用密码只存在于 GitHub Secrets（加密存储），不写入仓库任何文件。
 - 本地调试用环境变量传入，不落盘；`.gitignore` 已排除本地预览与日志。
 - PAT 只用于推送与触发 workflow，建议 7 天有效期，用完立即吊销。
+
+## 六、故障对照表（2026-10-02 实际踩到的）
+
+| 现象（原文） | 真正原因 | 修法 |
+| --- | --- | --- |
+| `git push` 报 `remote: Permission to <owner>/<repo>.git denied to <owner>` + `The requested URL returned error: 403` | fine-grained PAT 没有 **Contents: Read and write**（常见于创建时选了 `Public Repositories (read-only)`，那就是一个写权限都没有） | 编辑该 token → Repository access 选 `Only select repositories` 并勾中本仓库 → Permissions 里 `Contents` 改 **Read and write** → Save（改现有 token 不换令牌串） |
+| REST 返回 `403 Resource not accessible by personal access token` | 缺的正是该接口要求的那项权限（例如 `/actions/secrets` 需要 **Secrets: Read and write**） | 同上，勾上对应权限。注意：**仓库是公开的，读接口匿名也能 200**，所以“读得到”完全不等于令牌有权限，必须用写操作判定 |
+| Run 变红，红在 «提交报告与去重台账» 这一步 | 仓库的默认 workflow 权限被限制成只读，workflow 里声明了 `permissions: contents: write` 也**无法超过**该上限 | 仓库 → Settings → Actions → General → **Workflow permissions** → 选 **Read and write permissions** → Save。**注意此接口需要 Administration 权限，脚本查不了，必须人工看一眼** |
+| Run 变红，红在 «扫描岗位并发送邮件» | 缺 `GMAIL_*` secrets（会打印 `缺少 GMAIL_APP_PASSWORD，无法发送邮件`），或 Gmail 应用密码失效 | 补 secret；应用密码需在开启两步验证后重新生成 |
+| Run 成功但「本轮没有新岗位，跳过邮件」，退出 0 | 台账里已有这些岗位（去重生效），**不是故障** | 无需处理；想重发就清空 `state/sent-jobs.json` 里对应键 |
+| 本地跑报「SMTP 被重置、已写入 Gmail 草稿箱」 | 本机网络封 SMTP（见第二节），这是设计好的降级路径 | 云端（美区出口）正常发信；或按 `GMAIL_PROXY` 指定代理 |
