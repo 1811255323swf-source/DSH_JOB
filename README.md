@@ -83,8 +83,8 @@ GitHub 的 `cron` 只认 **UTC**，北京时间要减 8 小时：
 
 | 期望（北京） | cron（UTC） | 说明 |
 | --- | --- | --- |
-| 08:00 | `0 0 * * *` | **默认早报** |
-| 18:00 | `0 10 * * *` | **默认晚报** |
+| 08:07 | `7 0 * * *` | **默认早报**（刻意避开整点） |
+| 18:13 | `13 10 * * *` | **默认晚报**（刻意避开整点） |
 | 每 6 小时 | `0 */6 * * *` | 08/14/20/次日 02 点 |
 
 改法：编辑 `.github/workflows/scan.yml` 的 `on.schedule`。
@@ -156,7 +156,7 @@ $env:GMAIL_PROXY="http://127.0.0.1:7897"   # 支持 http:// 与 socks5://
 
 ```
 cpp-intern-radar/
-├─ .github/workflows/scan.yml   # 云端定时器（cron 0 0 * * * / 0 10 * * *）
+├─ .github/workflows/scan.yml   # 云端定时器（cron 7 0 * * * / 13 10 * * *，即北京 08:07 / 18:13）
 ├─ config/
 │  ├─ profile.json              # 候选人画像与规则开关
 │  ├─ keywords.json             # 方向词/排除词/学校门槛词/权重

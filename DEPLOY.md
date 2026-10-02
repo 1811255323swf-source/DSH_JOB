@@ -9,7 +9,7 @@
 | 采集链路（智联招聘 + 实习僧） | ✅ 实测可用 | 单轮采集 163 条原始岗位 → 去重 135 → 方向初筛 122 → 富化 50 → 打分保留 36 |
 | 打分/分级/去重台账/报告 | ✅ 26 项离线测试全绿 | `node test/run-tests.mjs` |
 | 邮件组装（主题、HTML + 纯文本、全部必填字段） | ✅ | `output/mail-preview.txt` |
-| 云端定时 workflow（北京 08:00 / 18:00） | ✅ 已写入 `.github/workflows/scan.yml` | 含 `workflow_dispatch` 手动触发与 `curated` 输入 |
+| 云端定时 workflow（北京 08:07 / 18:13） | ✅ 已写入 `.github/workflows/scan.yml` | 含 `workflow_dispatch` 手动触发与 `curated` 输入；时刻刻意避开整点，原因见 一之四 |
 | 首轮人工核实清单（10 个岗位，武汉 7 个） | ✅ | `data/round-2026-10-02.json` |
 | Gmail **草稿**创建（本地网络封 SMTP 时的降级路径） | ✅ 已用 IMAP 回读验证 | `[Gmail]/Drafts` 中 1 封，主题 `C++ 后端实习机会｜2026-10-02｜10 个重点岗位` |
 | GitHub 仓库可访问 | ✅ | `git ls-remote https://github.com/1811255323swf-source/DSH_JOB.git` 返回 0（空仓库） |
@@ -31,6 +31,15 @@
 | SMTP 应答错位（**发信一直失败的真正原因**） | 每轮都失败并降级成草稿：`SMTP 期望 250 实际 220 smtp.gmail.com ESMTP … - gsmtp` | `SmtpSession` 的读循环把每一行**既塞进队列又交给等待者**，于是每条应答被消费两次、每条命令读到的是上一条的应答（EHLO 读到的是问候语 220）。改为「一行只投递给一个消费者：有等待者就给等待者，否则入队」；STARTTLS 升级后的监听器也统一走 `attach()`，不再手抄一份。新增 2 条离线回归测试 |
 | DATA 后多发一个空行 | 同上（会与错位叠加） | `await session.command('', [250])` 会真的写出一个 CRLF，等于在报文中止符之后再发一条空命令；改为只读的 `readReply([250])` |
 | secrets 加密被 GitHub 拒绝 | `PUT …/actions/secrets/GMAIL_USER → HTTP 422 improperly encrypted secret` | 两处：① nonce 应为 **BLAKE2b 输出长度 24**，而 `blake2b512` 截断到 24 字节是另一个值（BLAKE2b 把输出长度编进参数块；Node 的 `outputLength` 只支持 shake 系列，故自带纯 JS BLAKE2b，并用 OpenSSL + RFC 7693 向量双重校验）；② sealed box 的线格式是 **ephemeralPk ‖ boxed**，原实现把 epk 接在了末尾。已用 `libsodium-wrappers` 的 `crypto_box_seal_open` 反证两种布局 |
+
+## 一之四、2026-10-02 18:00 的定时**被整次跳过**（并据此调整了 cron）
+
+| 项目 | 内容 |
+| --- | --- |
+| 现象 | 北京 18:00（UTC 10:00，`cron: 0 10 * * *`）应有一次自动运行；从 18:30 起每 1～2 分钟查一次 GitHub API，直到 19:35（29 次查询），`event=schedule` 的运行数始终为 **0** |
+| 判定 | 不是本项目的故障：代码路径在 16:17 用**与定时完全相同**的参数手跑过（采集 163 → 入选 10 → 邮件 `250 OK`）。这是 GitHub 调度的已知行为——整点负载最高，会延迟甚至整次跳过，且不报错、不补跑 |
+| 处理 | 两个 cron 都刻意偏离整点：`7 0 * * *`（北京 08:07）、`13 10 * * *`（北京 18:13）。运行次数不变，只改时刻 |
+| 仍未消除的风险 | GitHub 官方不保证 schedule 准时；若某次仍被跳过，等下一次即可（早晚两次互为兜底）。需要更硬的保证就得加时间点或换外部定时器调 `workflow_dispatch` |
 
 ## 二、本地网络的关键限制（实测）
 
