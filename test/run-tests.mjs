@@ -100,6 +100,16 @@ test('硬性排除：纯前端 / 销售 / 多年经验', () => {
   assert.match(hardExcluded({ title: 'Web前端开发实习生', description: '' }, keywords), /前端/);
   assert.match(hardExcluded({ title: '销售管培生', description: '' }, keywords), /销售/);
   assert.match(hardExcluded({ title: 'C++开发工程师', description: '要求5年以上工作经验' }, keywords), /年以上经验/);
+  assert.match(hardExcluded({ title: 'C++开发工程师（要求1年以上工作经验）', description: '熟悉Linux C++' }, keywords), /1 年以上经验/);
+  assert.match(hardExcluded({ title: 'Python后端开发工程师', description: '熟悉C++和Linux' }, keywords), /主语言非 C\+\+/);
+  assert.match(
+    hardExcluded({ title: 'C++开发实习生', description: '要求985/211或双一流院校，硕士及以上学历，熟悉Linux网络编程' }, keywords),
+    /普通一本不匹配/
+  );
+  assert.equal(
+    hardExcluded({ title: 'C++开发实习生', description: '不限制985/211，普通本科可投，熟悉Socket网络编程' }, keywords),
+    ''
+  );
   assert.equal(hardExcluded({ title: 'C++开发实习生', description: '熟悉Socket网络编程' }, keywords), '');
 });
 
@@ -175,11 +185,13 @@ test('排序：武汉优先于同分其他城市', () => {
 test('入选策略：优先投 + 长期备选补足到 6-10 且大厂不超过 1 个', () => {
   const mk = (tier, company, large = false) => ({ tier, company, companyType: large ? '偏大厂/大公司' : '中小/成长型', score: 20 });
   const jobs = [
+    mk('优先投', '大厂P', true),
     mk('优先投', 'W1'),
     mk('优先投', 'W2'),
     mk('长期备选', 'L1'),
     mk('长期备选', 'L2'),
     mk('长期备选', 'L3'),
+    mk('长期备选', '大厂L', true),
     mk('冲刺', '大厂X', true),
     mk('冲刺', 'S2'),
     mk('长期备选', 'L4'),
