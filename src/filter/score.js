@@ -18,6 +18,14 @@ const SME_HINTS = [
 const CXX_SIGNAL = /C\+\+|C／C\+\+|C语言|\bC\/C\+\+\b|cpp/i;
 const NON_CPP_TITLE_LANGUAGE = /(?:^|[\s（(【\[\/｜、,，])(?:Java|Python|Golang|Go语言|PHP|C#|\.NET|Android|iOS|前端|大数据)(?:[\s）)】\]\/｜、,，]|$|开发|后端|工程师|实习|岗)/i;
 const SCHOOL_GATE_NEGATION = /不(?:限|限制|要求|看)?\s*(?:985|211|双一流)|(?:非|无)\s*(?:985|211|双一流)|普通(?:一本|本科)|双非|本科(?:即可|可投)/;
+const BODY_CXX_FIT_PATTERNS = [
+  /Linux|Unix|系统编程|系统调用|POSIX|内核|国产操作系统|麒麟|统信/i,
+  /socket|网络编程|套接字|TCP|UDP|协议栈|网络协议/i,
+  /epoll|select|poll|IO多路复用|I\/O多路复用|Reactor|Proactor/i,
+  /多线程|线程池|并发|高并发|pthread|std::thread/i,
+  /服务端|后端服务|服务器开发|网关|中间件|分布式/i,
+  /数据库|MySQL|PostgreSQL|Redis|存储引擎|分布式存储/i,
+];
 const SKILL_PATTERNS = {
   'C++': /C\+\+|C／C\+\+|C语言|cpp/i,
   '数据结构与算法': /数据结构|算法|STL/i,
@@ -87,6 +95,13 @@ function hasNonCppPrimaryTitle(title) {
   return NON_CPP_TITLE_LANGUAGE.test(title) && !hasCxxSignal(title);
 }
 
+function bodyCxxFit(job) {
+  const body = normText([job.description, job.coreRequirements, (job.tags || []).join(' ')].filter(Boolean).join(' '));
+  if (!hasCxxSignal(body)) return { ok: false, hits: 0 };
+  const hits = BODY_CXX_FIT_PATTERNS.filter((re) => re.test(body)).length;
+  return { ok: hits >= 2, hits };
+}
+
 function schoolGateHighHits(text, keywords) {
   const hits = countHits(text, keywords.schoolGate.high);
   if (!hits.length) return [];
@@ -117,7 +132,6 @@ export function hardExcluded(job, keywords) {
   const text = jobText(job);
   const titleHit = keywords.negative.hardExclude.find((t) => title.includes(t));
   if (titleHit) return `标题命中排除词「${titleHit}」`;
-  if (hasNonCppPrimaryTitle(title)) return '标题主语言非 C++（当前阶段不推荐）';
   const highGate = schoolGateHighHits(text, keywords);
   if (highGate.length) return `普通一本不匹配的学校/学历门槛：${highGate.slice(0, 3).join('、')}`;
   // Description dominated by an excluded function (e.g. pure QA / pure ops postings).
@@ -155,9 +169,10 @@ export function scoreJob(job, profile, keywords) {
   const cxxAffinity = hasCxxSignal(`${title} ${text}`);
   const titleCxx = hasCxxSignal(title);
   const competingLang = hasNonCppPrimaryTitle(title);
+  const competingLangBodyFit = competingLang ? bodyCxxFit(job).ok : false;
   if (competingLang) {
-    score -= 18;
-    reasons.push('标题主语言非 C++（方向偏离）');
+    score += competingLangBodyFit ? -6 : -18;
+    reasons.push(competingLangBodyFit ? '标题主语言非 C++，但 JD 正文有较明确 C++/系统方向要求' : '标题主语言非 C++（方向偏离）');
   }
   if (!cxxAffinity) {
     score -= 6;
@@ -291,7 +306,8 @@ export function scoreJob(job, profile, keywords) {
   else if (score >= 14 && cxxAffinity) tier = '长期备选';
   else if (directionScore >= 8 && cxxAffinity) tier = '冲刺';
   if (gateHigh.length && directionScore >= 8) tier = '冲刺';
-  if (competingLang) tier = '观察';
+  if (competingLang && !competingLangBodyFit) tier = '观察';
+  if (competingLang && competingLangBodyFit && tier === '优先投') tier = '长期备选';
   if (tier === '优先投' && durationConflict) tier = '长期备选';
 
   return {
