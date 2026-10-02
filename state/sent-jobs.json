@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-02T08:18:30.371Z",
+  "updatedAt": "2026-10-02T18:45:29.558Z",
   "entries": {
     "id:2f818e595441e547": {
       "company": "武汉格蓝若智能技术股份有限公司",
@@ -600,6 +600,186 @@
       "tier": "长期备选",
       "firstSeenAt": "2026-10-02T08:18:30.370Z",
       "notifiedAt": "2026-10-02T08:18:30.370Z",
+      "channel": "smtp"
+    },
+    "id:56986a212e81ce47": {
+      "company": "武汉浩洋启汇机械科技有限公司",
+      "title": "嵌入式开发实习生",
+      "city": "武汉·洪山·九峰",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1402052680J41019845604.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.557Z",
+      "notifiedAt": "2026-10-02T18:45:29.557Z",
+      "channel": "smtp"
+    },
+    "url:776ca8a380e41fe6": {
+      "company": "武汉浩洋启汇机械科技有限公司",
+      "title": "嵌入式开发实习生",
+      "city": "武汉·洪山·九峰",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1402052680J41019845604.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.557Z",
+      "notifiedAt": "2026-10-02T18:45:29.557Z",
+      "channel": "smtp"
+    },
+    "ct:武汉浩洋启汇机械科技有限公司|嵌入式开发实习生": {
+      "company": "武汉浩洋启汇机械科技有限公司",
+      "title": "嵌入式开发实习生",
+      "city": "武汉·洪山·九峰",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1402052680J41019845604.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.557Z",
+      "notifiedAt": "2026-10-02T18:45:29.557Z",
+      "channel": "smtp"
+    },
+    "id:e65ee08ff5a3a8b9": {
+      "company": "武汉赛摩博晟信息科技有限公司",
+      "title": "AI技术应用研究实习生（27届）",
+      "city": "武汉·江夏",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1348672480J40832835416.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.557Z",
+      "notifiedAt": "2026-10-02T18:45:29.557Z",
+      "channel": "smtp"
+    },
+    "url:21273ba13d35812f": {
+      "company": "武汉赛摩博晟信息科技有限公司",
+      "title": "AI技术应用研究实习生（27届）",
+      "city": "武汉·江夏",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1348672480J40832835416.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.557Z",
+      "notifiedAt": "2026-10-02T18:45:29.557Z",
+      "channel": "smtp"
+    },
+    "ct:武汉赛摩博晟信息科技有限公司|ai技术应用研究实习生（27届）": {
+      "company": "武汉赛摩博晟信息科技有限公司",
+      "title": "AI技术应用研究实习生（27届）",
+      "city": "武汉·江夏",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1348672480J40832835416.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.557Z",
+      "notifiedAt": "2026-10-02T18:45:29.557Z",
+      "channel": "smtp"
+    },
+    "id:73861a60f7bedd77": {
+      "company": "燧石投资管理(武汉)有限公司",
+      "title": "高频量化策略实习生",
+      "city": "武汉·江岸",
+      "url": "https://www.zhaopin.com/jobdetail/CC447976580J40909867408.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.557Z",
+      "notifiedAt": "2026-10-02T18:45:29.557Z",
+      "channel": "smtp"
+    },
+    "url:f8656851ad750ca4": {
+      "company": "燧石投资管理(武汉)有限公司",
+      "title": "高频量化策略实习生",
+      "city": "武汉·江岸",
+      "url": "https://www.zhaopin.com/jobdetail/CC447976580J40909867408.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.557Z",
+      "notifiedAt": "2026-10-02T18:45:29.557Z",
+      "channel": "smtp"
+    },
+    "ct:燧石投资管理(武汉)有限公司|高频量化策略实习生": {
+      "company": "燧石投资管理(武汉)有限公司",
+      "title": "高频量化策略实习生",
+      "city": "武汉·江岸",
+      "url": "https://www.zhaopin.com/jobdetail/CC447976580J40909867408.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.557Z",
+      "notifiedAt": "2026-10-02T18:45:29.557Z",
+      "channel": "smtp"
+    },
+    "id:d48480224668fd22": {
+      "company": "湖北点润智能科技有限公司",
+      "title": "计算机视觉算法工程师实习生",
+      "city": "武汉·洪山·关山",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1501944180J40952231608.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.557Z",
+      "notifiedAt": "2026-10-02T18:45:29.557Z",
+      "channel": "smtp"
+    },
+    "url:b6bb03abf71ab3ba": {
+      "company": "湖北点润智能科技有限公司",
+      "title": "计算机视觉算法工程师实习生",
+      "city": "武汉·洪山·关山",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1501944180J40952231608.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.557Z",
+      "notifiedAt": "2026-10-02T18:45:29.557Z",
+      "channel": "smtp"
+    },
+    "ct:湖北点润智能科技有限公司|计算机视觉算法工程师实习生": {
+      "company": "湖北点润智能科技有限公司",
+      "title": "计算机视觉算法工程师实习生",
+      "city": "武汉·洪山·关山",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1501944180J40952231608.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.557Z",
+      "notifiedAt": "2026-10-02T18:45:29.557Z",
+      "channel": "smtp"
+    },
+    "id:7fbe4b64b27d5a3a": {
+      "company": "武汉京天电器有限公司",
+      "title": "宇树机器人训练实习生",
+      "city": "武汉·洪山·关山",
+      "url": "https://www.zhaopin.com/jobdetail/CC378293610J40813731205.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.558Z",
+      "notifiedAt": "2026-10-02T18:45:29.558Z",
+      "channel": "smtp"
+    },
+    "url:082b88b9e8720133": {
+      "company": "武汉京天电器有限公司",
+      "title": "宇树机器人训练实习生",
+      "city": "武汉·洪山·关山",
+      "url": "https://www.zhaopin.com/jobdetail/CC378293610J40813731205.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.558Z",
+      "notifiedAt": "2026-10-02T18:45:29.558Z",
+      "channel": "smtp"
+    },
+    "ct:武汉京天电器有限公司|宇树机器人训练实习生": {
+      "company": "武汉京天电器有限公司",
+      "title": "宇树机器人训练实习生",
+      "city": "武汉·洪山·关山",
+      "url": "https://www.zhaopin.com/jobdetail/CC378293610J40813731205.htm",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.558Z",
+      "notifiedAt": "2026-10-02T18:45:29.558Z",
+      "channel": "smtp"
+    },
+    "id:44de8cce09b8ec07": {
+      "company": "绿建信息",
+      "title": "C++开发实习生",
+      "city": "苏州",
+      "url": "https://www.shixiseng.com/intern/inn_acfkqreqahsk",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.558Z",
+      "notifiedAt": "2026-10-02T18:45:29.558Z",
+      "channel": "smtp"
+    },
+    "url:5c1406fe56706a7f": {
+      "company": "绿建信息",
+      "title": "C++开发实习生",
+      "city": "苏州",
+      "url": "https://www.shixiseng.com/intern/inn_acfkqreqahsk",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.558Z",
+      "notifiedAt": "2026-10-02T18:45:29.558Z",
+      "channel": "smtp"
+    },
+    "ct:绿建信息|c++开发实习生": {
+      "company": "绿建信息",
+      "title": "C++开发实习生",
+      "city": "苏州",
+      "url": "https://www.shixiseng.com/intern/inn_acfkqreqahsk",
+      "tier": "长期备选",
+      "firstSeenAt": "2026-10-02T18:45:29.558Z",
+      "notifiedAt": "2026-10-02T18:45:29.558Z",
       "channel": "smtp"
     }
   }
