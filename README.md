@@ -123,7 +123,17 @@ $env:GMAIL_USER="you@gmail.com"; $env:GMAIL_APP_PASSWORD="abcdefghijklmnop"; nod
 ```
 
 常用参数：`--limit 10`（最多输出岗位数）、`--min 6`（最少补足数）、`--enrich 50`（详情页富化上限）、
-`--out <dir>`（报告目录）、`--no-mail`、`--dry-run`。
+`--out <dir>`（报告目录）、`--curated <file>`（人工核实轮清单）、`--dump-mail <file>`（只生成邮件预览不发送）、
+`--no-mail`、`--dry-run`。
+
+**代理支持**：如果所在网络封了 Gmail 的 SMTP/IMAP 端口（国内很常见），设置环境变量即可走本地代理：
+
+```powershell
+$env:GMAIL_PROXY="http://127.0.0.1:7897"   # 支持 http:// 与 socks5://
+```
+
+自带 HTTP CONNECT 与 SOCKS5 两种隧道实现，会自动回退。注意：部分代理出口节点本身封禁 SMTP 端口，
+这时发信会失败 —— 本地会**自动降级为写入 Gmail 草稿**，而云端（GitHub Actions，美区出口）通常可以直接发出。
 
 **退出码**：`0` 成功或按规则跳过发信｜`1` 邮件发送失败或采集错误过多（workflow 变红并触发 GitHub 邮件告警）｜`2` 参数错误。
 
