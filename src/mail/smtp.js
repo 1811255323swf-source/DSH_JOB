@@ -10,13 +10,19 @@ function dotStuff(body) {
   return body.replace(/\r?\n/g, CRLF).replace(/^\./gm, '..');
 }
 
-class SmtpSession {
+export class SmtpSession {
   constructor(socket, onLine) {
+    this.waiters = [];
+    this.onLine = onLine;
+    this.attach(socket);
+  }
+
+  /** Start reading replies from `socket` (called again after the STARTTLS upgrade). */
+  attach(socket) {
     this.socket = socket;
     this.buffer = '';
     this.lines = [];
     this.waiters = [];
-    this.onLine = onLine;
     socket.setEncoding('utf8');
     socket.on('data', (chunk) => {
       this.buffer += chunk;
@@ -24,10 +30,13 @@ class SmtpSession {
       while ((idx = this.buffer.indexOf('\n')) >= 0) {
         const line = this.buffer.slice(0, idx).replace(/\r$/, '');
         this.buffer = this.buffer.slice(idx + 1);
-        this.lines.push(line);
         this.onLine?.(line);
+        // Deliver each line to exactly ONE consumer: a reader already waiting, or the queue.
+        // Pushing to the queue *and* resolving a waiter makes the next command re-read the
+        // previous reply, so every response lands one command late ("期望 250 实际 220").
         const w = this.waiters.shift();
         if (w) w(line);
+        else this.lines.push(line);
       }
     });
   }
@@ -98,30 +107,15 @@ export async function sendMail({
     });
 
     const greet = await session.nextLine(timeoutMs);
-    transcript.push(greet);
     if (!greet.startsWith('220')) throw new Error(`SMTP 问候异常：${greet}`);
 
     if (useStartTls) {
       await session.command('STARTTLS', [220]);
       const upgraded = await tlsOverTunnel(rawSocket, host, timeoutMs);
       socket = upgraded;
-      session.socket = upgraded;
-      session.buffer = '';
-      session.lines = [];
-      session.waiters = [];
-      upgraded.setEncoding('utf8');
-      upgraded.on('data', (chunk) => {
-        session.buffer += chunk;
-        let idx;
-        while ((idx = session.buffer.indexOf('\n')) >= 0) {
-          const line = session.buffer.slice(0, idx).replace(/\r$/, '');
-          session.buffer = session.buffer.slice(idx + 1);
-          session.lines.push(line);
-          transcript.push(line);
-          const w = session.waiters.shift();
-          if (w) w(line);
-        }
-      });
+      // Re-attach through the same code path so the upgraded socket cannot drift from the
+      // demultiplexing rules above (a hand-copied listener here was one of the desync bugs).
+      session.attach(upgraded);
       await session.command(`EHLO ${host}`, [250]);
     } else {
       await session.command(`EHLO ${host}`, [250]);

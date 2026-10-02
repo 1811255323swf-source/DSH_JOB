@@ -280,6 +280,49 @@ test('命令行参数解析：--curated / --curated-only', () => {
   assert.ok(args.curated.endsWith(path.join('data', 'round-2026-10-02.json')));
 });
 
+// Regression: the reply reader used to push every line into its queue *and* resolve a waiting
+// reader, so each reply was handed out twice and every command read the previous response —
+// Gmail answered EHLO with the stale "220 ... - gsmtp" greeting and no mail was ever sent.
+test('SMTP：每行应答只投递给一个消费者，且读应答不写socket', async () => {
+  const { EventEmitter } = await import('node:events');
+  const { SmtpSession } = await import('../src/mail/smtp.js');
+  class FakeSocket extends EventEmitter {
+    setEncoding() {}
+    write() {
+      this.writes = (this.writes || 0) + 1;
+    }
+  }
+  const sock = new FakeSocket();
+  const session = new SmtpSession(sock, () => {});
+
+  const greeting = session.nextLine(1000); // a reader is already waiting when data arrives
+  sock.emit('data', '220 smtp.gmail.com ESMTP ready\r\n');
+  assert.equal(await greeting, '220 smtp.gmail.com ESMTP ready');
+
+  const writesBefore = sock.writes || 0;
+  const ehlo = session.readReply([250], 1000);
+  sock.emit('data', '250-smtp.gmail.com at your service\r\n250-SIZE 35882577\r\n250 SMTPUTF8\r\n');
+  const reply = await ehlo;
+  assert.equal(reply.code, 250, '第二条命令必须读到自己的应答，而不是重读问候语');
+  assert.equal(reply.lines.length, 3, '多行应答应完整收集');
+  assert.equal(sock.writes || 0, writesBefore, 'readReply 只读不写（DATA 后多发空行会造成错位）');
+});
+
+test('SMTP：数据行与应答在同一块里到达也不会错位', async () => {
+  const { EventEmitter } = await import('node:events');
+  const { SmtpSession } = await import('../src/mail/smtp.js');
+  class FakeSocket extends EventEmitter {
+    setEncoding() {}
+    write() {}
+  }
+  const sock = new FakeSocket();
+  const session = new SmtpSession(sock, () => {});
+  // Both replies arrive in one TCP chunk before anyone has asked for the second one.
+  sock.emit('data', '220 greeting\r\n250 first ok\r\n');
+  assert.equal(await session.nextLine(1000), '220 greeting');
+  assert.equal(await session.nextLine(1000), '250 first ok');
+});
+
 test('--curated-only：一次网络请求都不发，清单直接进入报告与邮件', async () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'radar-curated-'));
   let fetches = 0;
