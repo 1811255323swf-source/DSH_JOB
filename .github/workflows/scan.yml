@@ -21,7 +21,7 @@ on:
         required: false
         default: 'false'
       curated:
-        description: '人工核实轮清单文件（留空则走自动扫描），例如 data/round-2026-10-02.json'
+        description: '人工核实轮清单文件（留空则走自动扫描），例如 data/round-2026-10-02.json。填了就完全离线，不采集不富化'
         required: false
         default: ''
 
@@ -59,7 +59,7 @@ jobs:
           MAIL_TO: ${{ secrets.MAIL_TO }}
         run: |
           ARGS="--task scan --limit ${{ github.event.inputs.limit || '10' }} --min 6 --enrich ${{ github.event.inputs.enrich || '60' }}"
-          if [ -n "${{ github.event.inputs.curated }}" ]; then ARGS="$ARGS --curated ${{ github.event.inputs.curated }}"; fi
+          if [ -n "${{ github.event.inputs.curated }}" ]; then ARGS="$ARGS --curated ${{ github.event.inputs.curated }} --curated-only"; fi
           if [ "${{ github.event.inputs.no_mail }}" = "true" ]; then ARGS="$ARGS --no-mail"; fi
           node src/main.js $ARGS
 

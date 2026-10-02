@@ -14,7 +14,7 @@ import { scoreJob, dedupeJobs, rankJobs, selectForReport, hardExcluded, jobIdent
 import { loadLedger, saveLedger, splitNewSeen, markSeen, isSeen } from '../src/dedupe/ledger.js';
 import { buildEmail, buildSubject } from '../src/mail/compose.js';
 import { buildRawMessage } from '../src/mail/smtp.js';
-import { normalizeJob, preFilter, parseArgs } from '../src/main.js';
+import { normalizeJob, preFilter, parseArgs, runScan } from '../src/main.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const profile = JSON.parse(fs.readFileSync(path.join(ROOT, 'config', 'profile.json'), 'utf8'));
@@ -272,4 +272,49 @@ test('岗位指纹稳定且区分公司', () => {
   const c = jobIdentity({ company: 'B公司', title: 'C++实习生', city: '武汉' });
   assert.equal(a, b);
   assert.notEqual(a, c);
+});
+
+test('命令行参数解析：--curated / --curated-only', () => {
+  const args = parseArgs(['--task', 'scan', '--curated', 'data/round-2026-10-02.json', '--curated-only']);
+  assert.equal(args.curatedOnly, true);
+  assert.ok(args.curated.endsWith(path.join('data', 'round-2026-10-02.json')));
+});
+
+test('--curated-only：一次网络请求都不发，清单直接进入报告与邮件', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'radar-curated-'));
+  let fetches = 0;
+  const res = await runScan(
+    {
+      ...parseArgs([
+        '--task', 'scan',
+        '--curated', path.join(ROOT, 'data', 'round-2026-10-02.json'),
+        '--curated-only',
+        '--no-mail',
+      ]),
+      root: dir,
+      outDir: path.join(dir, 'output'),
+    },
+    {
+      log: () => {},
+      fetchImpl: () => {
+        fetches += 1;
+        throw new Error('清单模式不应发起网络请求');
+      },
+    }
+  );
+  assert.equal(fetches, 0, '`--curated-only` 不得触碰网络');
+  assert.ok(res.selected.length >= 6 && res.selected.length <= 10, `入选数量应在 6-10，实际 ${res.selected.length}`);
+  const report = JSON.parse(fs.readFileSync(res.report.jsonPath, 'utf8'));
+  assert.equal(report.selectedCount, res.selected.length);
+  assert.equal(report.collectedCount, res.selected.length);
+  assert.equal(report.errors.length, 0);
+  assert.equal(report.mail, null);
+  assert.match(res.composed.subject, /^C\+\+ 后端实习机会｜\d{4}-\d{2}-\d{2}｜\d+ 个重点岗位$/);
+});
+
+test('--curated-only 缺少 --curated 时明确报错', async () => {
+  await assert.rejects(
+    () => runScan({ ...parseArgs(['--task', 'scan', '--curated-only', '--no-mail']), root: os.tmpdir() }, { log: () => {} }),
+    /--curated-only 必须与 --curated/
+  );
 });

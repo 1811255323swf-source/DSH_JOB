@@ -1,15 +1,19 @@
 // Deploy helper for cpp-intern-radar: set Actions secrets, push-dispatch the workflow,
 // watch the run, and verify the mailed report from the repository itself.
 //
-//   node github-api.mjs whoami
-//   node github-api.mjs secrets  <owner> <repo>
-//   node github-api.mjs dispatch <owner> <repo> [curatedPath]
-//   node github-api.mjs watch    <owner> <repo>
-//   node github-api.mjs verify   <owner> <repo> [runId]
+//   node tools/github-deploy.mjs whoami
+//   node tools/github-deploy.mjs secrets  <owner> <repo>
+//   node tools/github-deploy.mjs dispatch <owner> <repo> [curatedPath]
+//   node tools/github-deploy.mjs watch    <owner> <repo>
+//   node tools/github-deploy.mjs verify   <owner> <repo>
+//   node tools/github-deploy.mjs selftest
 //
 // Requires GH_TOKEN in the environment (fine-grained PAT with Contents + Actions write).
+// Only `secrets` needs the optional pure-JS tweetnacl package (`npm i --no-save tweetnacl`);
+// every other subcommand runs with zero dependencies.
 import { createHash } from 'node:crypto';
-import nacl from 'tweetnacl';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const API = 'https://api.github.com';
 const TOKEN = process.env.GH_TOKEN;
@@ -34,7 +38,8 @@ async function api(path, options = {}) {
 }
 
 /** libsodium crypto_box_seal, as required by the GitHub secrets API. */
-export function sealBox(plaintext, recipientPublicKeyB64) {
+export async function sealBox(plaintext, recipientPublicKeyB64) {
+  const { default: nacl } = await import('tweetnacl');
   const pk = Buffer.from(recipientPublicKeyB64, 'base64');
   const eph = nacl.box.keyPair();
   const nonce = createHash('blake2b512').update(Buffer.concat([eph.publicKey, pk])).digest().subarray(0, 24);
@@ -44,7 +49,7 @@ export function sealBox(plaintext, recipientPublicKeyB64) {
 
 async function putSecret(owner, repo, name, value) {
   const key = await api(`/repos/${owner}/${repo}/actions/secrets/public-key`);
-  const encrypted_value = sealBox(value, key.key);
+  const encrypted_value = await sealBox(value, key.key);
   await api(`/repos/${owner}/${repo}/actions/secrets/${name}`, {
     method: 'PUT',
     body: JSON.stringify({ encrypted_value, key_id: key.key_id }),
@@ -53,13 +58,33 @@ async function putSecret(owner, repo, name, value) {
 }
 
 const [cmd, ...rest] = process.argv.slice(2);
-const invokedDirectly = process.argv[1] && process.argv[1].endsWith('github-api.mjs');
+// Compare against this module's own path instead of a hard-coded filename: the file ships as
+// tools/github-deploy.mjs, so the previous `endsWith('github-api.mjs')` check silently skipped
+// the entire CLI below (the tool appeared to do nothing when run as documented).
+const invokedDirectly =
+  !!process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
 
 if (invokedDirectly) {
 try {
-  if (!TOKEN && cmd !== 'help') throw new Error('缺少 GH_TOKEN 环境变量');
+  if (!TOKEN && cmd !== 'help' && cmd !== 'selftest') throw new Error('缺少 GH_TOKEN 环境变量');
 
-  if (cmd === 'whoami') {
+  if (cmd === 'selftest') {
+    // Proves our crypto_box_seal matches what the GitHub secrets API expects, without needing a token.
+    const { default: nacl } = await import('tweetnacl');
+    const recipient = nacl.box.keyPair();
+    const message = 'ywpy rmdn niux uylt';
+    const sealed = Buffer.from(
+      await sealBox(message, Buffer.from(recipient.publicKey).toString('base64')),
+      'base64'
+    );
+    const ephPk = sealed.subarray(sealed.length - 32);
+    const boxed = sealed.subarray(0, sealed.length - 32);
+    const nonce = createHash('blake2b512').update(Buffer.concat([ephPk, recipient.publicKey])).digest().subarray(0, 24);
+    const opened = nacl.box.open(boxed, nonce, ephPk, recipient.secretKey);
+    const ok = !!opened && Buffer.from(opened).toString('utf8') === message;
+    console.log(`sealed box 往返：${ok ? '✅ 一致' : '❌ 不一致'}`);
+    if (!ok) process.exitCode = 1;
+  } else if (cmd === 'whoami') {
     const me = await api('/user');
     console.log(`token 属于：${me.login}（${me.type}）`);
     const scopes = await fetch(`${API}/user`, { headers }).then((r) => r.headers.get('x-oauth-scopes'));
@@ -127,7 +152,7 @@ try {
     const ledger = JSON.parse(Buffer.from(ledgerFile.content, 'base64').toString('utf8'));
     console.log(`\n去重台账：${Object.keys(ledger.entries || {}).length} 条键，更新于 ${ledger.updatedAt}`);
   } else {
-    console.log('用法：whoami | secrets <owner> <repo> | dispatch <owner> <repo> [curated] | watch <owner> <repo> | verify <owner> <repo>');
+    console.log('用法：whoami | secrets <owner> <repo> | dispatch <owner> <repo> [curated] | watch <owner> <repo> | verify <owner> <repo> | selftest');
   }
 } catch (err) {
   console.error('✖', err.message);

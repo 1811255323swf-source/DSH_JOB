@@ -54,6 +54,15 @@ git push -u origin main
 | `MAIL_TO` | 可选 | 收件地址，默认等于 `GMAIL_USER` |
 | `MAIL_FROM_NAME` | 可选 | 发件人显示名，默认「C++ 实习雷达」 |
 
+嫌网页点麻烦可以用自带的部署助手（`whoami`/`verify` 等子命令零依赖，只有写 secrets 需要一次性
+`npm i --no-save tweetnacl`）：
+
+```bash
+node tools/github-deploy.mjs selftest                                  # 先证明加密格式正确，再动真凭据
+GH_TOKEN=<PAT> GMAIL_USER=you@gmail.com GMAIL_APP_PASSWORD=xxxxxxxxxxxxxxxx \
+  node tools/github-deploy.mjs secrets <owner> <repo>                  # 写入上面三个 secret
+```
+
 ### 第 4 步：确认 Actions 已启用
 
 仓库 → **Actions** 标签页 → 若提示则点 **"I understand my workflows, go ahead and enable them"**。
@@ -118,13 +127,17 @@ node src/main.js --task scan --dry-run      # 只打印执行计划
 node src/main.js --task scan --no-mail      # 真跑一轮，不发邮件
 node src/main.js --task scan                # 真跑一轮并发邮件（需环境变量）
 
+# 人工核实清单轮：完全不联网（跳过采集与详情富化），秒级出报告——云端首轮发信走这条
+node src/main.js --task scan --curated data/round-2026-10-02.json --curated-only
+
 # Windows PowerShell 临时带上凭据：
 $env:GMAIL_USER="you@gmail.com"; $env:GMAIL_APP_PASSWORD="abcdefghijklmnop"; node src/main.js --task scan
 ```
 
 常用参数：`--limit 10`（最多输出岗位数）、`--min 6`（最少补足数）、`--enrich 50`（详情页富化上限）、
-`--out <dir>`（报告目录）、`--curated <file>`（人工核实轮清单）、`--dump-mail <file>`（只生成邮件预览不发送）、
-`--no-mail`、`--dry-run`。
+`--out <dir>`（报告目录）、`--curated <file>`（人工核实轮清单）、`--curated-only`（配合 `--curated`：
+跳过采集与详情富化、零网络请求；GitHub runner 在海外，未必连得上智联/实习僧）、
+`--dump-mail <file>`（只生成邮件预览不发送）、`--no-mail`、`--dry-run`。
 
 **代理支持**：如果所在网络封了 Gmail 的 SMTP/IMAP 端口（国内很常见），设置环境变量即可走本地代理：
 

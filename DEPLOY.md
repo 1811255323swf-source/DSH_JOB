@@ -7,12 +7,19 @@
 | 项目 | 状态 | 证据 |
 | --- | --- | --- |
 | 采集链路（智联招聘 + 实习僧） | ✅ 实测可用 | 单轮采集 163 条原始岗位 → 去重 135 → 方向初筛 122 → 富化 50 → 打分保留 36 |
-| 打分/分级/去重台账/报告 | ✅ 21 项离线测试全绿 | `node test/run-tests.mjs` |
+| 打分/分级/去重台账/报告 | ✅ 24 项离线测试全绿 | `node test/run-tests.mjs` |
 | 邮件组装（主题、HTML + 纯文本、全部必填字段） | ✅ | `output/mail-preview.txt` |
 | 云端定时 workflow（北京 08:00 / 18:00） | ✅ 已写入 `.github/workflows/scan.yml` | 含 `workflow_dispatch` 手动触发与 `curated` 输入 |
 | 首轮人工核实清单（10 个岗位，武汉 7 个） | ✅ | `data/round-2026-10-02.json` |
 | Gmail **草稿**创建（本地网络封 SMTP 时的降级路径） | ✅ 已用 IMAP 回读验证 | `[Gmail]/Drafts` 中 1 封，主题 `C++ 后端实习机会｜2026-10-02｜10 个重点岗位` |
 | GitHub 仓库可访问 | ✅ | `git ls-remote https://github.com/1811255323swf-source/DSH_JOB.git` 返回 0（空仓库） |
+
+## 一之二、2026-10-02 续做时补的两处
+
+| 项目 | 状态 | 证据 |
+| --- | --- | --- |
+| 部署助手修复 | ✅ | `tools/github-deploy.mjs` 原先用 `endsWith('github-api.mjs')` 判断是否被直接运行，而文件实际叫 `github-deploy.mjs`，按本文档写法运行会**静默什么都不做**；已改为比较自身路径。同时新增 `selftest`，并把 `tweetnacl` 改为只在 `secrets` 子命令里动态引入（其余子命令零依赖） |
+| 云端首轮离线发信路径 | ✅ | 新增 `--curated-only`：`--curated` 时跳过采集与详情富化、零网络请求。离线测试断言「一次 `fetch` 都不发」，`tests 24 / pass 24`。workflow 在填了 `curated` 时会自动带上该参数 |
 
 ## 二、本地网络的关键限制（实测）
 
@@ -44,6 +51,8 @@
      `whoami` / `dispatch` / `watch` / `verify` 子命令，可一键触发并回读验证。）
 3. **手动跑一次首轮**：Actions → cpp-intern-radar → Run workflow，
    `curated` 填 `data/round-2026-10-02.json` → 由 GitHub 服务器把这份清单真正发出。
+   填了 `curated` 的这次运行是**完全离线**的（自动加 `--curated-only`：不采集、不富化），
+   秒级完成，不受 GitHub runner 在海外、可能连不上智联/实习僧的影响。
 4. **之后自动运行**：每天北京 08:00 / 18:00 自动扫描，只发「台账里没有的新岗位」。
    每轮会把报告与台账提交回仓库（同时刷新 60 天定时器）。
 

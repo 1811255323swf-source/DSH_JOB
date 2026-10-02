@@ -43,6 +43,7 @@ export function parseArgs(argv = process.argv.slice(2)) {
     else if (a === '--enrich') args.enrich = Number(argv[++i]);
     else if (a === '--no-mail') args.mail = false;
     else if (a === '--curated') args.curated = path.resolve(argv[++i]);
+    else if (a === '--curated-only') args.curatedOnly = true;
     else if (a === '--dump-mail') args.dumpMail = path.resolve(argv[++i]);
     else if (a === '--help' || a === '-h') args.help = true;
   }
@@ -123,6 +124,10 @@ export async function runScan(args, deps = {}) {
 
   log(`▶ cpp-intern-radar 扫描开始（北京时间 ${beijingDateString(runAt)}）`);
 
+  if (args.curatedOnly && !args.curated) {
+    throw new Error('--curated-only 必须与 --curated <清单文件> 一起使用');
+  }
+
   if (args.dryRun) {
     const plan = [
       `智联招聘：${sources.zhaopin.queries.length} 组关键词/城市组合`,
@@ -137,12 +142,21 @@ export async function runScan(args, deps = {}) {
 
   // ---------- 1. collect ----------
   let raw = [];
-  if (sources.zhaopin.enabled) {
-    raw = raw.concat(await collectZhaopin(sources.zhaopin.queries, { fetchImpl, log }));
-  }
-  if (sources.shixiseng.enabled) {
-    // 实习僧 titles are font-obfuscated, so always enrich them before trusting text.
-    raw = raw.concat(await collectShixiseng(sources.shixiseng.queries, { fetchImpl, log }));
+  if (args.curatedOnly) {
+    // Hand-verified round: skip the network entirely. The curated file already carries the
+    // researched postings, so a cloud first run is deterministic and finishes in seconds —
+    // a GitHub runner abroad may not be able to reach 智联/实习僧 listing pages at all.
+    const parsed = JSON.parse(fs.readFileSync(args.curated, 'utf8'));
+    raw = (Array.isArray(parsed) ? parsed : parsed.jobs || []).map((j) => ({ ...j, curated: true }));
+    log(`  清单模式（--curated-only）：跳过联网采集，直接使用 ${raw.length} 个已核实岗位`);
+  } else {
+    if (sources.zhaopin.enabled) {
+      raw = raw.concat(await collectZhaopin(sources.zhaopin.queries, { fetchImpl, log }));
+    }
+    if (sources.shixiseng.enabled) {
+      // 实习僧 titles are font-obfuscated, so always enrich them before trusting text.
+      raw = raw.concat(await collectShixiseng(sources.shixiseng.queries, { fetchImpl, log }));
+    }
   }
   log(`  采集原始条目：${raw.length}`);
 
@@ -157,7 +171,7 @@ export async function runScan(args, deps = {}) {
     seenUrls.add(key);
     return true;
   });
-  const plausible = preFilter(unique, keywords);
+  const plausible = args.curatedOnly ? unique : preFilter(unique, keywords);
   log(`  去重后候选：${unique.length}，方向初筛后：${plausible.length}`);
 
   // rank both sources by an early keyword signal (武汉 first), then interleave so one
@@ -173,20 +187,26 @@ export async function runScan(args, deps = {}) {
   const byQuick = (list) => [...list].sort((a, b) => quickScore(b) - quickScore(a));
   const sxRanked = byQuick(plausible.filter((j) => j.source === 'shixiseng'));
   const zpRanked = byQuick(plausible.filter((j) => j.source === 'zhaopin'));
-  const sxQuota = Math.min(sxRanked.length, Math.ceil(args.enrich / 2));
-  const zpQuota = Math.max(0, Math.min(zpRanked.length, args.enrich - sxQuota));
-  const toEnrich = [...zpRanked.slice(0, zpQuota), ...sxRanked.slice(0, sxQuota)];
-  log(`  进入详情富化：${toEnrich.length}（智联 ${zpQuota}，实习僧 ${sxQuota}）`);
+  let enriched;
+  if (args.curatedOnly) {
+    log('  清单模式：跳过详情页富化（核实内容已随清单提供）');
+    enriched = plausible;
+  } else {
+    const sxQuota = Math.min(sxRanked.length, Math.ceil(args.enrich / 2));
+    const zpQuota = Math.max(0, Math.min(zpRanked.length, args.enrich - sxQuota));
+    const toEnrich = [...zpRanked.slice(0, zpQuota), ...sxRanked.slice(0, sxQuota)];
+    log(`  进入详情富化：${toEnrich.length}（智联 ${zpQuota}，实习僧 ${sxQuota}）`);
 
-  const enriched = await mapLimit(toEnrich, deps.concurrency || 4, async (job) => {
-    try {
-      if (job.source === 'zhaopin') return normalizeJob(await enrichZhaopinDetail(job, { fetchImpl }));
-      return normalizeJob(await enrichShixisengDetail(job, { fetchImpl }));
-    } catch (err) {
-      errors.push(`富化失败 ${job.company}/${job.title}：${err.message}`);
-      return job;
-    }
-  });
+    enriched = await mapLimit(toEnrich, deps.concurrency || 4, async (job) => {
+      try {
+        if (job.source === 'zhaopin') return normalizeJob(await enrichZhaopinDetail(job, { fetchImpl }));
+        return normalizeJob(await enrichShixisengDetail(job, { fetchImpl }));
+      } catch (err) {
+        errors.push(`富化失败 ${job.company}/${job.title}：${err.message}`);
+        return job;
+      }
+    });
+  }
 
   // ---------- 3. score ----------
   const scoredAll = enriched.map((job) => {
@@ -364,7 +384,7 @@ async function deliverMail({ composed, fresh, args, log }) {
 async function main() {
   const args = parseArgs();
   if (args.help) {
-    console.log(`cpp-intern-radar\n\n用法：\n  node src/main.js --task scan [--dry-run] [--limit 10] [--min 6] [--enrich 60] [--no-mail] [--out dir]\n\n环境变量：\n  GMAIL_USER / GMAIL_APP_PASSWORD / MAIL_TO / MAIL_FROM_NAME\n`);
+    console.log(`cpp-intern-radar\n\n用法：\n  node src/main.js --task scan [--dry-run] [--limit 10] [--min 6] [--enrich 60] [--no-mail] [--out dir]\n  node src/main.js --task scan --curated data/round-YYYY-MM-DD.json [--curated-only]\n    人工核实清单轮：--curated-only 表示完全不联网（跳过采集与详情富化），\n    云端首轮发信建议用它，秒级完成且不受 GitHub runner 网络位置影响。\n\n环境变量：\n  GMAIL_USER / GMAIL_APP_PASSWORD / MAIL_TO / MAIL_FROM_NAME\n`);
     return 0;
   }
   if (args.task === 'collect-only') args.mail = false;
