@@ -332,7 +332,7 @@ async function deliverMail({ composed, fresh, args, log }) {
 
   const raw = buildRawMessage({ from: user, fromName, to, subject: composed.subject, text: composed.text, html: composed.html });
   log(`  发送邮件 → ${to}｜主题：${composed.subject}`);
-  let result = await sendImpl({ user, password, to, rawMessage: raw });
+  let result = await sendImpl({ user, password, to, rawMessage: raw, log });
   const transcriptTail = (result.transcript || []).slice(-3).join(' | ');
   if (result.ok) {
     log(`  ✅ 发送成功（服务器确认）：${transcriptTail}`);
@@ -340,7 +340,7 @@ async function deliverMail({ composed, fresh, args, log }) {
   }
   // Connection-level failures (blocked 465, TLS reset) get a second chance on 587 + STARTTLS;
   // protocol/auth failures go straight to the plain-text retry.
-  const connIssue = /ECONNREFUSED|ETIMEDOUT|ENOTFOUND|ECONNRESET|连接超时|socket hang up|EPIPE/i.test(
+  const connIssue = /ECONNREFUSED|ETIMEDOUT|ENOTFOUND|ECONNRESET|连接超时|响应超时|socket hang up|EPIPE/i.test(
     `${result.error || ''} ${result.status || ''}`
   );
   log(`  ⚠️ 首次发送失败：${result.error || result.status}${connIssue ? '（连接层问题，改用 587 + STARTTLS）' : ''}，用纯文本简版重试一次`);
@@ -357,8 +357,8 @@ async function deliverMail({ composed, fresh, args, log }) {
   });
   result = await sendImpl(
     connIssue
-      ? { user, password, to, rawMessage: rawBrief, port: 587, useStartTls: true }
-      : { user, password, to, rawMessage: rawBrief }
+      ? { user, password, to, rawMessage: rawBrief, port: 587, useStartTls: true, log }
+      : { user, password, to, rawMessage: rawBrief, log }
   );
   if (result.ok) {
     log(`  ✅ 纯文本简版重试成功：${(result.transcript || []).slice(-3).join(' | ')}`);

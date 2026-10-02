@@ -43,8 +43,8 @@ class SmtpSession {
     });
   }
 
-  async command(cmd, expectCodes, timeoutMs = 20000) {
-    this.socket.write(cmd + CRLF);
+  /** Read one (possibly multi-line) reply without sending anything. */
+  async readReply(expectCodes, timeoutMs = 20000) {
     const collected = [];
     // Read until a line whose code is final (4th char is a space) — handles multiline replies.
     for (;;) {
@@ -59,6 +59,11 @@ class SmtpSession {
         return { code, lines: collected, text: collected.join('\n') };
       }
     }
+  }
+
+  async command(cmd, expectCodes, timeoutMs = 20000) {
+    this.socket.write(cmd + CRLF);
+    return this.readReply(expectCodes, timeoutMs);
   }
 }
 
@@ -135,7 +140,10 @@ export async function sendMail({
     await session.command(`RCPT TO:<${to}>`, [250, 251]);
     await session.command('DATA', [354]);
     socket.write(`${dotStuff(rawMessage)}${CRLF}.${CRLF}`);
-    const accepted = await session.command('', [250]); // empty command: just read the reply after the body
+    // The body terminator already ended the command; read the acceptance reply without
+    // sending anything else. Writing an extra blank line here makes the server treat a
+    // stray empty command as the next exchange and desynchronises the reply stream.
+    const accepted = await session.readReply([250]);
     const status = accepted.text;
     transcript.push(status);
 
@@ -154,6 +162,9 @@ export async function sendMail({
       socket?.destroy();
     } catch {
       /* ignore */
+    }
+    if (transcript.length) {
+      log(`  [smtp] 失败前的服务器会话记录（用于定位）：\n${transcript.map((l) => `      ${l}`).join('\n')}`);
     }
     return { ok: false, error: err.message, transcript };
   }
