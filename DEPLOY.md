@@ -7,12 +7,15 @@
 | 项目 | 状态 | 证据 |
 | --- | --- | --- |
 | 采集链路（智联招聘 + 实习僧） | ✅ 实测可用 | 单轮采集 163 条原始岗位 → 去重 135 → 方向初筛 122 → 富化 50 → 打分保留 36 |
-| 打分/分级/去重台账/报告 | ✅ 24 项离线测试全绿 | `node test/run-tests.mjs` |
+| 打分/分级/去重台账/报告 | ✅ 26 项离线测试全绿 | `node test/run-tests.mjs` |
 | 邮件组装（主题、HTML + 纯文本、全部必填字段） | ✅ | `output/mail-preview.txt` |
 | 云端定时 workflow（北京 08:00 / 18:00） | ✅ 已写入 `.github/workflows/scan.yml` | 含 `workflow_dispatch` 手动触发与 `curated` 输入 |
 | 首轮人工核实清单（10 个岗位，武汉 7 个） | ✅ | `data/round-2026-10-02.json` |
 | Gmail **草稿**创建（本地网络封 SMTP 时的降级路径） | ✅ 已用 IMAP 回读验证 | `[Gmail]/Drafts` 中 1 封，主题 `C++ 后端实习机会｜2026-10-02｜10 个重点岗位` |
 | GitHub 仓库可访问 | ✅ | `git ls-remote https://github.com/1811255323swf-source/DSH_JOB.git` 返回 0（空仓库） |
+| **Gmail 真实发信**（云端 GitHub runner 出口） | ✅ 服务器确认送达 | `output/report-2026-10-02-160042.json` → `"sent":true`，`status":"250 2.0.0 OK … - gsmtp"`，`attempts:1` |
+| **Actions secrets 已写入** | ✅ | `GMAIL_USER` / `GMAIL_APP_PASSWORD`(16) / `MAIL_TO`；`gh api …/actions/secrets` 可查到三个名字 |
+| **仓库已推送 + workflow 实跑通过** | ✅ | `main` 已含全部代码；`workflow_dispatch` 运行 `36981606325` 全步骤 success，报告与台账由 bot 自动提交回仓库 |
 
 ## 一之二、2026-10-02 续做时补的两处
 
@@ -20,6 +23,14 @@
 | --- | --- | --- |
 | 部署助手修复 | ✅ | `tools/github-deploy.mjs` 原先用 `endsWith('github-api.mjs')` 判断是否被直接运行，而文件实际叫 `github-deploy.mjs`，按本文档写法运行会**静默什么都不做**；已改为比较自身路径。同时新增 `selftest`，并把 `tweetnacl` 改为只在 `secrets` 子命令里动态引入（其余子命令零依赖） |
 | 云端首轮离线发信路径 | ✅ | 新增 `--curated-only`：`--curated` 时跳过采集与详情富化、零网络请求。离线测试断言「一次 `fetch` 都不发」，`tests 24 / pass 24`。workflow 在填了 `curated` 时会自动带上该参数 |
+
+## 一之三、2026-10-02 收尾：真正打通发信的两个 bug
+
+| bug | 症状 | 根因与修法 |
+| --- | --- | --- |
+| SMTP 应答错位（**发信一直失败的真正原因**） | 每轮都失败并降级成草稿：`SMTP 期望 250 实际 220 smtp.gmail.com ESMTP … - gsmtp` | `SmtpSession` 的读循环把每一行**既塞进队列又交给等待者**，于是每条应答被消费两次、每条命令读到的是上一条的应答（EHLO 读到的是问候语 220）。改为「一行只投递给一个消费者：有等待者就给等待者，否则入队」；STARTTLS 升级后的监听器也统一走 `attach()`，不再手抄一份。新增 2 条离线回归测试 |
+| DATA 后多发一个空行 | 同上（会与错位叠加） | `await session.command('', [250])` 会真的写出一个 CRLF，等于在报文中止符之后再发一条空命令；改为只读的 `readReply([250])` |
+| secrets 加密被 GitHub 拒绝 | `PUT …/actions/secrets/GMAIL_USER → HTTP 422 improperly encrypted secret` | 两处：① nonce 应为 **BLAKE2b 输出长度 24**，而 `blake2b512` 截断到 24 字节是另一个值（BLAKE2b 把输出长度编进参数块；Node 的 `outputLength` 只支持 shake 系列，故自带纯 JS BLAKE2b，并用 OpenSSL + RFC 7693 向量双重校验）；② sealed box 的线格式是 **ephemeralPk ‖ boxed**，原实现把 epk 接在了末尾。已用 `libsodium-wrappers` 的 `crypto_box_seal_open` 反证两种布局 |
 
 ## 二、本地网络的关键限制（实测）
 
