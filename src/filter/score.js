@@ -128,7 +128,7 @@ export function hardExcluded(job, keywords) {
   }
   if (/招[聘募]?对象[：:]?\s*(社招|社会招聘)/.test(text)) return '明确社招';
   const yearsExp = text.match(/([1-9][0-9]*)\s*年以上(?:相关)?工作经验|要求\s*([1-9][0-9]*)\s*年以上经验/);
-  if (yearsExp) return `要求 ${yearsExp[1] || yearsExp[2]} 年以上工作经验`;
+  if (yearsExp) return `要求 ${yearsExp[1] || yearsExp[2]} 年以上经验`;
   // Staleness: the brief only wants freshly posted / still-open roles.
   const age = postingAgeDays(job);
   if (age !== null && age > STALE_DAYS) return `信息过期（${age} 天未刷新）`;
@@ -387,10 +387,10 @@ export function selectForReport(jobs, { min = 6, target = 10, maxLarge = 1 } = {
   const groups = [
     nonLarge(priority),
     nonLarge(longTerm),
-    nonLarge(stretch),
     large(priority),
     large(longTerm),
     large(stretch),
+    nonLarge(stretch),
   ];
 
   for (const group of groups) {
