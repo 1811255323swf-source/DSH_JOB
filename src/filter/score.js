@@ -15,6 +15,9 @@ const SME_HINTS = [
   '0-20人', '20-99人', '100-499人', '500-999人', '民营', '创业', 'A轮', 'B轮', 'C轮',
   '天使轮', '初创', '中小', '专精特新', '瞪羚', '独角兽',
 ];
+const CXX_SIGNAL = /C\+\+|C／C\+\+|C语言|\bC\/C\+\+\b|cpp/i;
+const NON_CPP_TITLE_LANGUAGE = /(?:^|[\s（(【\[\/｜、,，])(?:Java|Python|Golang|Go语言|PHP|C#|\.NET|Android|iOS|前端|大数据)(?:[\s）)】\]\/｜、,，]|$|开发|后端|工程师|实习|岗)/i;
+const SCHOOL_GATE_NEGATION = /不(?:限|限制|要求|看)?\s*(?:985|211|双一流)|(?:非|无)\s*(?:985|211|双一流)|普通(?:一本|本科)|双非|本科(?:即可|可投)/;
 const SKILL_PATTERNS = {
   'C++': /C\+\+|C／C\+\+|C语言|cpp/i,
   '数据结构与算法': /数据结构|算法|STL/i,
@@ -76,12 +79,47 @@ function countHits(text, list) {
   return hits;
 }
 
+function hasCxxSignal(text) {
+  return CXX_SIGNAL.test(text);
+}
+
+function hasNonCppPrimaryTitle(title) {
+  return NON_CPP_TITLE_LANGUAGE.test(title) && !hasCxxSignal(title);
+}
+
+function schoolGateHighHits(text, keywords) {
+  const hits = countHits(text, keywords.schoolGate.high);
+  if (!hits.length) return [];
+  // Avoid rejecting postings that explicitly say ordinary / non-985/211 backgrounds are OK.
+  if (SCHOOL_GATE_NEGATION.test(text)) return [];
+  return hits;
+}
+
+export function isLargeCompany(job) {
+  const text = normText([job.companyType, (job.companyMeta || []).join(' '), (job.tags || []).join(' '), job.company, job.companyBlurb].join(' '));
+  return /偏大厂|大公司|10000人以上|1000-9999人|世界500强|上市公司|字节跳动|阿里巴巴|腾讯|百度|华为|美团|京东|网易|小米|拼多多|快手|滴滴|蚂蚁|中兴|大疆|商汤|旷视|OPPO|vivo|荣耀/.test(text);
+}
+
+export function isSmeCompany(job) {
+  const text = normText([job.companyType, (job.companyMeta || []).join(' '), (job.tags || []).join(' '), job.company, job.companyBlurb].join(' '));
+  return !isLargeCompany(job) && /中小|成长型|0-20人|20-99人|100-499人|500-999人|民营|创业|A轮|B轮|C轮|天使轮|初创|专精特新|瞪羚|独角兽/.test(text);
+}
+
+function companyPreferenceRank(job) {
+  if (isSmeCompany(job)) return 0;
+  if (isLargeCompany(job)) return 2;
+  return 1;
+}
+
 /** Hard filters: the brief's explicit exclusions. */
 export function hardExcluded(job, keywords) {
   const title = normText(job.title);
   const text = jobText(job);
   const titleHit = keywords.negative.hardExclude.find((t) => title.includes(t));
   if (titleHit) return `标题命中排除词「${titleHit}」`;
+  if (hasNonCppPrimaryTitle(title)) return '标题主语言非 C++（当前阶段不推荐）';
+  const highGate = schoolGateHighHits(text, keywords);
+  if (highGate.length) return `普通一本不匹配的学校/学历门槛：${highGate.slice(0, 3).join('、')}`;
   // Description dominated by an excluded function (e.g. pure QA / pure ops postings).
   const desc = normText(job.description).slice(0, 1500);
   if (desc) {
@@ -89,8 +127,8 @@ export function hardExcluded(job, keywords) {
     if (dq.length >= 3) return `描述多次命中排除词（${dq.slice(0, 3).join('、')}）`;
   }
   if (/招[聘募]?对象[：:]?\s*(社招|社会招聘)/.test(text)) return '明确社招';
-  const yearsExp = text.match(/([3-9]|[1-9][0-9])\s*年以上(工作)?经验/);
-  if (yearsExp) return `要求 ${yearsExp[1]} 年以上经验`;
+  const yearsExp = text.match(/([1-9][0-9]*)\s*年以上(?:相关)?工作经验|要求\s*([1-9][0-9]*)\s*年以上经验/);
+  if (yearsExp) return `要求 ${yearsExp[1] || yearsExp[2]} 年以上工作经验`;
   // Staleness: the brief only wants freshly posted / still-open roles.
   const age = postingAgeDays(job);
   if (age !== null && age > STALE_DAYS) return `信息过期（${age} 天未刷新）`;
@@ -114,11 +152,11 @@ export function scoreJob(job, profile, keywords) {
   let score = 0;
 
   // --- language affinity: this candidate is a C++ person; a Java/Python-only role is off-target ---
-  const cxxAffinity = /C\+\+|C／C\+\+|C语言|\bC\/C\+\+\b|cpp/i.test(`${title} ${text}`);
-  const titleCxx = /C\+\+|C／C\+\+|C语言|cpp/i.test(title);
-  const competingLang = /(Java|Python|Golang|Go语言|PHP|C#|\.NET|Android|iOS|前端)/i.test(title);
-  if (competingLang && !titleCxx) {
-    score -= 8;
+  const cxxAffinity = hasCxxSignal(`${title} ${text}`);
+  const titleCxx = hasCxxSignal(title);
+  const competingLang = hasNonCppPrimaryTitle(title);
+  if (competingLang) {
+    score -= 18;
     reasons.push('标题主语言非 C++（方向偏离）');
   }
   if (!cxxAffinity) {
@@ -203,7 +241,7 @@ export function scoreJob(job, profile, keywords) {
   }
 
   // School / degree gate
-  const gateHigh = countHits(text, keywords.schoolGate.high);
+  const gateHigh = schoolGateHighHits(text, keywords);
   const gateLow = countHits(text, keywords.schoolGate.low);
   let schoolGate = '未明确';
   if (gateHigh.length) {
@@ -253,6 +291,7 @@ export function scoreJob(job, profile, keywords) {
   else if (score >= 14 && cxxAffinity) tier = '长期备选';
   else if (directionScore >= 8 && cxxAffinity) tier = '冲刺';
   if (gateHigh.length && directionScore >= 8) tier = '冲刺';
+  if (competingLang) tier = '观察';
   if (tier === '优先投' && durationConflict) tier = '长期备选';
 
   return {
@@ -309,7 +348,7 @@ export function dedupeJobs(jobs) {
   return [...byKey.values()];
 }
 
-/** Keep 武汉 first, then score. */
+/** Keep 武汉 first, then prefer SME-ish companies, then score. */
 export function rankJobs(jobs, profile) {
   const order = new Map(profile.locationPriority.map((c, i) => [c, i]));
   return [...jobs].sort((a, b) => {
@@ -318,30 +357,54 @@ export function rankJobs(jobs, profile) {
     if (a.locationTier === '武汉' && b.locationTier !== '武汉') return -1;
     if (b.locationTier === '武汉' && a.locationTier !== '武汉') return 1;
     if (ca !== cb) return ca - cb;
+    const pa = companyPreferenceRank(a);
+    const pb = companyPreferenceRank(b);
+    if (pa !== pb) return pa - pb;
     return b.score - a.score;
   });
 }
 
-export function selectForReport(jobs, { min = 6, target = 10 } = {}) {
+export function selectForReport(jobs, { min = 6, target = 10, maxLarge = 1 } = {}) {
   const ranked = [...jobs];
   const priority = ranked.filter((j) => j.tier === '优先投');
   const stretch = ranked.filter((j) => j.tier === '冲刺');
   const longTerm = ranked.filter((j) => j.tier === '长期备选');
-  const picked = [...priority];
-  const largeCount = () => picked.filter((j) => /偏大厂/.test(j.companyType)).length;
-  for (const j of longTerm) {
-    if (picked.length >= target) break;
+  const picked = [];
+  const largeCount = () => picked.filter((j) => isLargeCompany(j)).length;
+  const canAdd = (j) => {
+    if (!j || picked.includes(j) || j.tier === '观察') return false;
+    if (isLargeCompany(j) && largeCount() >= maxLarge) return false;
+    return true;
+  };
+  const add = (j) => {
+    if (!canAdd(j)) return false;
     picked.push(j);
-  }
-  for (const j of stretch) {
+    return true;
+  };
+
+  const nonLarge = (list) => list.filter((j) => !isLargeCompany(j));
+  const large = (list) => list.filter((j) => isLargeCompany(j));
+  const groups = [
+    nonLarge(priority),
+    nonLarge(longTerm),
+    nonLarge(stretch),
+    large(priority),
+    large(longTerm),
+    large(stretch),
+  ];
+
+  for (const group of groups) {
+    for (const j of group) {
+      if (picked.length >= target) break;
+      add(j);
+    }
     if (picked.length >= target) break;
-    if (/偏大厂/.test(j.companyType) && largeCount() >= 1) continue;
-    picked.push(j);
   }
+
   if (picked.length < min) {
     for (const j of ranked) {
       if (picked.length >= min) break;
-      if (!picked.includes(j) && j.tier !== '观察') picked.push(j);
+      add(j);
     }
   }
   return picked.slice(0, target);
