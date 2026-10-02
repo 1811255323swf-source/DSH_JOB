@@ -101,7 +101,7 @@ test('硬性排除：纯前端 / 销售 / 多年经验', () => {
   assert.match(hardExcluded({ title: '销售管培生', description: '' }, keywords), /销售/);
   assert.match(hardExcluded({ title: 'C++开发工程师', description: '要求5年以上工作经验' }, keywords), /年以上经验/);
   assert.match(hardExcluded({ title: 'C++开发工程师（要求1年以上工作经验）', description: '熟悉Linux C++' }, keywords), /1 年以上经验/);
-  assert.match(hardExcluded({ title: 'Python后端开发工程师', description: '熟悉C++和Linux' }, keywords), /主语言非 C\+\+/);
+  assert.equal(hardExcluded({ title: 'Python后端开发工程师', description: '熟悉C++和Linux' }, keywords), '');
   assert.match(
     hardExcluded({ title: 'C++开发实习生', description: '要求985/211或双一流院校，硕士及以上学历，熟悉Linux网络编程' }, keywords),
     /普通一本不匹配/
@@ -111,6 +111,32 @@ test('硬性排除：纯前端 / 销售 / 多年经验', () => {
     ''
   );
   assert.equal(hardExcluded({ title: 'C++开发实习生', description: '熟悉Socket网络编程' }, keywords), '');
+});
+
+test('打分：标题非 C++ 时根据正文具体 C++/系统方向强度决定是否保留', () => {
+  const weak = scoreJob(normalizeJob({
+    source: 'zhaopin',
+    title: 'Python后端开发工程师',
+    company: '武汉某科技',
+    city: '武汉',
+    companyMeta: ['民营', '20-99人'],
+    description: '职位描述 熟悉 Python Web 开发，了解 C++ 和 Linux 加分。',
+    url: 'https://example.com/job/python-weak',
+  }), profile, keywords);
+  assert.equal(weak.tier, '观察');
+
+  const strong = scoreJob(normalizeJob({
+    source: 'zhaopin',
+    title: 'Python后端开发工程师',
+    company: '武汉某科技',
+    city: '武汉',
+    education: '本科及以上',
+    companyMeta: ['民营', '20-99人'],
+    description: '职位描述 核心模块使用 C++ 开发，负责 Linux 服务端开发，要求熟悉 Socket 网络编程、epoll、多线程、TCP/IP，本科及以上学历，2028届亦可。',
+    url: 'https://example.com/job/python-strong-cpp',
+  }), profile, keywords);
+  assert.equal(strong.tier, '长期备选');
+  assert.match(strong.whyWorth, /标题主语言非 C\+\+，但 JD 正文有较明确 C\+\+\/系统方向要求/);
 });
 
 test('打分：武汉 + C++/Socket/epoll + 本科友好 → 优先投', () => {
