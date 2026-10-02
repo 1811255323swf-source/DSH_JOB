@@ -18,7 +18,17 @@ const SME_HINTS = [
 const CXX_SIGNAL = /C\+\+|C／C\+\+|C语言|\bC\/C\+\+\b|cpp/i;
 const NON_CPP_TITLE_LANGUAGE = /(?:^|[\s（(【\[\/｜、,，])(?:Java|Python|Golang|Go语言|PHP|C#|\.NET|Android|iOS|前端|大数据)(?:[\s）)】\]\/｜、,，]|$|开发|后端|工程师|实习|岗)/i;
 const SCHOOL_GATE_NEGATION = /不(?:限|限制|要求|看)?\s*(?:985|211|双一流)|(?:非|无)\s*(?:985|211|双一流)|普通(?:一本|本科)|双非|本科(?:即可|可投)/;
-const BODY_CXX_FIT_PATTERNS = [
+const BODY_CXX_PRIMARY_PATTERNS = [
+  /(?:主要|核心|重点|主体|基础|底层|后台|后端|服务端|服务器|客户端|模块|业务|项目|产品).{0,20}(?:使用|采用|基于|用|以)?\s*(?:C\+\+|C／C\+\+|C语言|\bC\/C\+\+\b|cpp).{0,20}(?:开发|研发|编程|编码|实现)?/i,
+  /(?:负责|参与|从事|承担).{0,20}(?:C\+\+|C／C\+\+|C语言|\bC\/C\+\+\b|cpp).{0,20}(?:开发|研发|编程|编码|实现|模块|项目|产品)/i,
+  /(?:C\+\+|C／C\+\+|C语言|\bC\/C\+\+\b|cpp).{0,12}(?:开发|研发|工程师|编码|编程|实现|模块|项目|服务|客户端|服务端|后台|后端)/i,
+  /(?:熟悉|掌握|精通|要求).{0,12}(?:C\+\+|C／C\+\+|C语言|\bC\/C\+\+\b|cpp)(?:\s|，|、|和|及|与|\/|$)/i,
+];
+const BODY_CXX_WEAK_PATTERNS = [
+  /(?:了解|有.*经验.*优先).{0,16}(?:C\+\+|C／C\+\+|C语言|\bC\/C\+\+\b|cpp)/i,
+  /(?:C\+\+|C／C\+\+|C语言|\bC\/C\+\+\b|cpp).{0,16}(?:加分|优先|更佳|最好|bonus|plus)/i,
+];
+const BODY_CXX_SUPPORT_PATTERNS = [
   /Linux|Unix|系统编程|系统调用|POSIX|内核|国产操作系统|麒麟|统信/i,
   /socket|网络编程|套接字|TCP|UDP|协议栈|网络协议/i,
   /epoll|select|poll|IO多路复用|I\/O多路复用|Reactor|Proactor/i,
@@ -98,8 +108,10 @@ function hasNonCppPrimaryTitle(title) {
 function bodyCxxFit(job) {
   const body = normText([job.description, job.coreRequirements, (job.tags || []).join(' ')].filter(Boolean).join(' '));
   if (!hasCxxSignal(body)) return { ok: false, hits: 0 };
-  const hits = BODY_CXX_FIT_PATTERNS.filter((re) => re.test(body)).length;
-  return { ok: hits >= 2, hits };
+  const primary = BODY_CXX_PRIMARY_PATTERNS.some((re) => re.test(body));
+  const weak = BODY_CXX_WEAK_PATTERNS.some((re) => re.test(body));
+  const hits = BODY_CXX_SUPPORT_PATTERNS.filter((re) => re.test(body)).length;
+  return { ok: primary || (!weak && hits >= 2), hits, primary };
 }
 
 function schoolGateHighHits(text, keywords) {
@@ -172,7 +184,7 @@ export function scoreJob(job, profile, keywords) {
   const competingLangBodyFit = competingLang ? bodyCxxFit(job).ok : false;
   if (competingLang) {
     score += competingLangBodyFit ? -6 : -18;
-    reasons.push(competingLangBodyFit ? '标题主语言非 C++，但 JD 正文有较明确 C++/系统方向要求' : '标题主语言非 C++（方向偏离）');
+    reasons.push(competingLangBodyFit ? '标题主语言非 C++，但 JD 主体是 C++ 开发' : '标题主语言非 C++（方向偏离）');
   }
   if (!cxxAffinity) {
     score -= 6;
