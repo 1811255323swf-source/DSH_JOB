@@ -1,0 +1,709 @@
+{
+  "runAt": "2026-10-02T07:05:37.301Z",
+  "beijingDate": "2026-10-02",
+  "stats": {
+    "bySource": {
+      "实习僧": 50
+    },
+    "byTier": {
+      "优先投": 5,
+      "观察": 20,
+      "长期备选": 18,
+      "冲刺": 3
+    },
+    "wuhan": 2,
+    "priority": 5
+  },
+  "collectedCount": 163,
+  "scoredCount": 50,
+  "selectedCount": 10,
+  "mail": null,
+  "errors": [],
+  "selected": [
+    {
+      "tier": "优先投",
+      "score": 24,
+      "company": "挚信资本",
+      "title": "C++实习生",
+      "city": "武汉",
+      "url": "https://www.shixiseng.com/intern/inn_jqzivj8yv7gv",
+      "source": "实习僧",
+      "companyType": "未标注",
+      "schoolGate": "本科友好：大三",
+      "durationNote": "3 个月 / 每周 5 天（时长较短，与寒假计划兼容）",
+      "matchPoints": [
+        "C++",
+        "数据库"
+      ],
+      "gaps": [
+        "MySQL 索引与事务 + 手写一个简易 KV 存储"
+      ],
+      "whyWorth": "岗位名直接命中方向：C++；武汉本地岗位（地点优先）；标题即为实习岗；地点在武汉；本科友好：大三；时长：3 个月 / 每周 5 天（时长较短，与寒假计划兼容）；综合评分 24（优先投）",
+      "publishOrUpdateDate": "2025-06-16 10:47:47"
+    },
+    {
+      "tier": "优先投",
+      "score": 39,
+      "company": "国准数据",
+      "title": "C++开发实习生",
+      "city": "全国",
+      "url": "https://www.shixiseng.com/intern/inn_fnr1v9ufxadb",
+      "source": "实习僧",
+      "companyType": "未标注",
+      "schoolGate": "本科友好：大二",
+      "durationNote": "2 个月 / 每周 5 天（时长较短，与寒假计划兼容）",
+      "matchPoints": [
+        "C++",
+        "数据结构与算法",
+        "Socket 网络编程",
+        "多线程/线程池",
+        "TCP/IP"
+      ],
+      "gaps": [
+        "TCP 三次握手/四次挥手、拥塞控制与抓包分析（wireshark + tcpdump）",
+        "线程池实现与 C++11 并发编程（mutex/condition_variable/atomic）",
+        "Linux 内核模块与字符设备驱动入门"
+      ],
+      "whyWorth": "岗位名直接命中方向：C++；标题即为实习岗；届次友好：面向在校生；本科友好：大二；时长：2 个月 / 每周 5 天（时长较短，与寒假计划兼容）；综合评分 39（优先投）",
+      "publishOrUpdateDate": "2023-09-12 09:39:56"
+    },
+    {
+      "tier": "优先投",
+      "score": 35,
+      "company": "新浪微博",
+      "title": "Agent 架构工程师实习生",
+      "city": "北京",
+      "url": "https://www.shixiseng.com/intern/inn_kh3hpcowvbld",
+      "source": "实习僧",
+      "companyType": "未标注",
+      "schoolGate": "本科友好：本科及以上",
+      "durationNote": "3 个月 / 每周 5 天（时长较短，与寒假计划兼容）",
+      "matchPoints": [
+        "C++",
+        "数据结构与算法",
+        "Linux",
+        "多线程/线程池",
+        "数据库",
+        "网络服务端"
+      ],
+      "gaps": [
+        "MySQL 索引与事务 + 手写一个简易 KV 存储",
+        "Redis 常用数据结构与缓存穿透/雪崩处理",
+        "线程池实现与 C++11 并发编程（mutex/condition_variable/atomic）"
+      ],
+      "whyWorth": "JD 命中方向关键词：C++、C/C++、高并发；标题即为实习岗；学历门槛友好（本科及以上）；本科友好：本科及以上；时长：3 个月 / 每周 5 天（时长较短，与寒假计划兼容）；综合评分 35（优先投）",
+      "publishOrUpdateDate": "2026-05-06 11:12:02"
+    },
+    {
+      "tier": "优先投",
+      "score": 29,
+      "company": "快手",
+      "title": "Java开发实习生-【基础体验】",
+      "city": "北京",
+      "url": "https://www.shixiseng.com/intern/inn_mxpjhbzzcgwr",
+      "source": "实习僧",
+      "companyType": "偏大厂/大公司（快手、快手）",
+      "schoolGate": "本科友好：本科及以上",
+      "durationNote": "3 个月 / 每周 5 天（时长较短，与寒假计划兼容）",
+      "matchPoints": [
+        "数据结构与算法",
+        "Linux",
+        "Socket 网络编程",
+        "多线程/线程池"
+      ],
+      "gaps": [
+        "线程池实现与 C++11 并发编程（mutex/condition_variable/atomic）"
+      ],
+      "whyWorth": "JD 命中方向关键词：网络编程、高并发、中间件、多线程；标题即为实习岗；学历门槛友好（本科及以上）；偏大厂/大公司（快手、快手）；本科友好：本科及以上；时长：3 个月 / 每周 5 天（时长较短，与寒假计划兼容）；综合评分 29（优先投）",
+      "publishOrUpdateDate": "2026-09-08 16:11:09"
+    },
+    {
+      "tier": "优先投",
+      "score": 26,
+      "company": "华钧广汇",
+      "title": "C++开发实习生",
+      "city": "北京",
+      "url": "https://www.shixiseng.com/intern/inn_thfrss8yrvkm",
+      "source": "实习僧",
+      "companyType": "未标注",
+      "schoolGate": "未明确",
+      "durationNote": "3 个月 / 每周 4 天（时长较短，与寒假计划兼容）",
+      "matchPoints": [
+        "C++",
+        "Linux",
+        "Socket 网络编程",
+        "多线程/线程池"
+      ],
+      "gaps": [
+        "线程池实现与 C++11 并发编程（mutex/condition_variable/atomic）",
+        "现代 C++（智能指针、移动语义、模板）与 STL 源码级理解"
+      ],
+      "whyWorth": "岗位名直接命中方向：C++；标题即为实习岗；时长：3 个月 / 每周 4 天（时长较短，与寒假计划兼容）；综合评分 26（优先投）",
+      "publishOrUpdateDate": "2026-09-22 10:05:09"
+    },
+    {
+      "tier": "长期备选",
+      "score": 31,
+      "company": "绿建信息",
+      "title": "C++开发实习生",
+      "city": "苏州",
+      "url": "https://www.shixiseng.com/intern/inn_acfkqreqahsk",
+      "source": "实习僧",
+      "companyType": "未标注",
+      "schoolGate": "本科友好：本科以上",
+      "durationNote": "8 个月 / 每周 5 天（长期，与寒假约 1 个多月短期计划冲突，建议按长期实习准备）",
+      "matchPoints": [
+        "C++",
+        "Linux",
+        "TCP/IP",
+        "网络服务端"
+      ],
+      "gaps": [
+        "TCP 三次握手/四次挥手、拥塞控制与抓包分析（wireshark + tcpdump）",
+        "Qt 基础控件与信号槽（工业软件/工具类岗位常见要求）"
+      ],
+      "whyWorth": "岗位名直接命中方向：C++；标题即为实习岗；学历门槛友好（本科以上）；本科友好：本科以上；时长：8 个月 / 每周 5 天（长期，与寒假约 1 个多月短期计划冲突，建议按长期实习准备）；综合评分 31（长期备选）",
+      "publishOrUpdateDate": "2025-10-28 11:25:02"
+    },
+    {
+      "tier": "长期备选",
+      "score": 25,
+      "company": "JANGTOP疆钍",
+      "title": "C/C++",
+      "city": "北京",
+      "url": "https://www.shixiseng.com/intern/inn_t9amj5pwriyp",
+      "source": "实习僧",
+      "companyType": "未标注",
+      "schoolGate": "本科友好：本科及以上",
+      "durationNote": "6 个月 / 每周 6 天（长期，与寒假约 1 个多月短期计划冲突，建议按长期实习准备）",
+      "matchPoints": [
+        "C++",
+        "数据结构与算法",
+        "Linux"
+      ],
+      "gaps": [
+        "Qt 基础控件与信号槽（工业软件/工具类岗位常见要求）"
+      ],
+      "whyWorth": "岗位名直接命中方向：C++、C/C++；学历门槛友好（本科及以上）；本科友好：本科及以上；时长：6 个月 / 每周 6 天（长期，与寒假约 1 个多月短期计划冲突，建议按长期实习准备）；综合评分 25（长期备选）",
+      "publishOrUpdateDate": "2026-03-17 14:58:23"
+    },
+    {
+      "tier": "长期备选",
+      "score": 21,
+      "company": "薪火科技",
+      "title": "C++实习生",
+      "city": "合肥",
+      "url": "https://www.shixiseng.com/intern/inn_m4wxsaut5z3t",
+      "source": "实习僧",
+      "companyType": "未标注",
+      "schoolGate": "本科友好：本科以上",
+      "durationNote": "6 个月 / 每周 5 天（长期，与寒假约 1 个多月短期计划冲突，建议按长期实习准备）",
+      "matchPoints": [
+        "C++",
+        "数据结构与算法",
+        "Linux"
+      ],
+      "gaps": [
+        "补齐 TCP/Reactor/数据库（当前正在补的四项）"
+      ],
+      "whyWorth": "岗位名直接命中方向：C++；标题即为实习岗；学历门槛友好（本科以上）；本科友好：本科以上；时长：6 个月 / 每周 5 天（长期，与寒假约 1 个多月短期计划冲突，建议按长期实习准备）；综合评分 21（长期备选）",
+      "publishOrUpdateDate": "2024-11-01 10:42:58"
+    },
+    {
+      "tier": "长期备选",
+      "score": 20,
+      "company": "华融通汇",
+      "title": "C++ 实习生",
+      "city": "深圳",
+      "url": "https://www.shixiseng.com/intern/inn_t7mcw7qvlcox",
+      "source": "实习僧",
+      "companyType": "未标注",
+      "schoolGate": "未明确",
+      "durationNote": "3 个月 / 每周 5 天（时长较短，与寒假计划兼容）",
+      "matchPoints": [
+        "C++",
+        "数据库"
+      ],
+      "gaps": [
+        "MySQL 索引与事务 + 手写一个简易 KV 存储",
+        "现代 C++（智能指针、移动语义、模板）与 STL 源码级理解"
+      ],
+      "whyWorth": "岗位名直接命中方向：C++；标题即为实习岗；时长：3 个月 / 每周 5 天（时长较短，与寒假计划兼容）；综合评分 20（长期备选）",
+      "publishOrUpdateDate": "2025-07-21 07:00:10"
+    },
+    {
+      "tier": "长期备选",
+      "score": 18,
+      "company": "光鉴科技",
+      "title": "c++实习生",
+      "city": "上海",
+      "url": "https://www.shixiseng.com/intern/inn_qofzzedr1w7x",
+      "source": "实习僧",
+      "companyType": "未标注",
+      "schoolGate": "本科友好：本科及以上",
+      "durationNote": "5 个月 / 每周 5 天",
+      "matchPoints": [
+        "C++",
+        "数据结构与算法",
+        "Linux"
+      ],
+      "gaps": [
+        "现代 C++（智能指针、移动语义、模板）与 STL 源码级理解"
+      ],
+      "whyWorth": "JD 命中方向关键词：C++；标题即为实习岗；学历门槛友好（本科及以上）；本科友好：本科及以上；时长：5 个月 / 每周 5 天；综合评分 18（长期备选）",
+      "publishOrUpdateDate": "2023-12-23 15:10:22"
+    }
+  ],
+  "allScored": [
+    {
+      "title": "C++实习生",
+      "company": "挚信资本",
+      "city": "武汉",
+      "score": 24,
+      "tier": "优先投",
+      "url": "https://www.shixiseng.com/intern/inn_jqzivj8yv7gv",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发实习生",
+      "company": "国准数据",
+      "city": "全国",
+      "score": 39,
+      "tier": "优先投",
+      "url": "https://www.shixiseng.com/intern/inn_fnr1v9ufxadb",
+      "excluded": ""
+    },
+    {
+      "title": "信息学编程辅导教师",
+      "company": "千秋文教",
+      "city": "全国",
+      "score": -1,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_hapcuwuyguhc",
+      "excluded": ""
+    },
+    {
+      "title": "C++实习生",
+      "company": "薪火科技",
+      "city": "合肥",
+      "score": 21,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_m4wxsaut5z3t",
+      "excluded": ""
+    },
+    {
+      "title": "c++实习生",
+      "company": "光鉴科技",
+      "city": "上海",
+      "score": 18,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_qofzzedr1w7x",
+      "excluded": ""
+    },
+    {
+      "title": "C++实习生",
+      "company": "大洋宝隆",
+      "city": "北京",
+      "score": 14,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_xv9pwd3qeudh",
+      "excluded": ""
+    },
+    {
+      "title": "C++实习生",
+      "company": "HRG合肥研究院",
+      "city": "合肥",
+      "score": 18,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_jziqzvpfbggs",
+      "excluded": ""
+    },
+    {
+      "title": "C/C++",
+      "company": "JANGTOP疆钍",
+      "city": "北京",
+      "score": 25,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_t9amj5pwriyp",
+      "excluded": ""
+    },
+    {
+      "title": "C++实习生",
+      "company": "挚信资本",
+      "city": "武汉",
+      "score": 24,
+      "tier": "优先投",
+      "url": "https://www.shixiseng.com/intern/inn_jqzivj8yv7gv",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发实习生",
+      "company": "绿建信息",
+      "city": "苏州",
+      "score": 31,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_acfkqreqahsk",
+      "excluded": ""
+    },
+    {
+      "title": "C++ 实习生",
+      "company": "华融通汇",
+      "city": "深圳",
+      "score": 20,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_t7mcw7qvlcox",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发工程师",
+      "company": "伯兄投资",
+      "city": "上海",
+      "score": 15,
+      "tier": "冲刺",
+      "url": "https://www.shixiseng.com/intern/inn_ouqdtli0cofn",
+      "excluded": ""
+    },
+    {
+      "title": "C++授课教师",
+      "company": "伯禹教育",
+      "city": "深圳",
+      "score": 14,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_d3tbguexjtoh",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发实习生",
+      "company": "智融信达",
+      "city": "深圳",
+      "score": 15,
+      "tier": "冲刺",
+      "url": "https://www.shixiseng.com/intern/inn_jej7e2fpgssk",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发实习生",
+      "company": "国准数据",
+      "city": "全国",
+      "score": 39,
+      "tier": "优先投",
+      "url": "https://www.shixiseng.com/intern/inn_fnr1v9ufxadb",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发实习生",
+      "company": "华钧广汇",
+      "city": "北京",
+      "score": 26,
+      "tier": "优先投",
+      "url": "https://www.shixiseng.com/intern/inn_thfrss8yrvkm",
+      "excluded": ""
+    },
+    {
+      "title": "c/c++初级工程师",
+      "company": "英歌智达",
+      "city": "杭州",
+      "score": 10,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_kunqoali4shq",
+      "excluded": ""
+    },
+    {
+      "title": "游戏C++服务端",
+      "company": "泰逢游戏",
+      "city": "广州",
+      "score": 18,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_3xvqodufcddt",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发（可转正）",
+      "company": "艾思克瑞",
+      "city": "西安",
+      "score": 17,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_vto1ygvv7rig",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发（可转正）",
+      "company": "妙客莱音",
+      "city": "上海",
+      "score": 17,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_zbjfuiqbm6wa",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发（可转正）",
+      "company": "墨泊可士",
+      "city": "广州",
+      "score": 17,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_nftdftzj91we",
+      "excluded": ""
+    },
+    {
+      "title": "图像C++开发实习生",
+      "company": "百度",
+      "city": "北京",
+      "score": 17,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_qijsgbbnvkr2",
+      "excluded": ""
+    },
+    {
+      "title": "C/C++软件工程师",
+      "company": "TRON",
+      "city": "上海",
+      "score": 18,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_7doivpuogcxd",
+      "excluded": ""
+    },
+    {
+      "title": "云基础架构实习生-重庆",
+      "company": "UAES",
+      "city": "重庆",
+      "score": 29,
+      "tier": "冲刺",
+      "url": "https://www.shixiseng.com/intern/inn_flwfoncfykac",
+      "excluded": ""
+    },
+    {
+      "title": "运维架构师",
+      "company": "钧誉资产",
+      "city": "广州",
+      "score": 14,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_iqkwst5ozmga",
+      "excluded": ""
+    },
+    {
+      "title": "基础部英语教师",
+      "company": "思麦儿教育",
+      "city": "上海",
+      "score": 4,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_ybchsj04qdaw",
+      "excluded": ""
+    },
+    {
+      "title": "基础人事实习生",
+      "company": "金斯瑞生物科技",
+      "city": "南京",
+      "score": 6,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_7frxhm0nf4su",
+      "excluded": ""
+    },
+    {
+      "title": "基础运营实习生",
+      "company": "焦点科技",
+      "city": "南京",
+      "score": 6,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_rtnjypdj3xfj",
+      "excluded": ""
+    },
+    {
+      "title": "云存储架构实习生",
+      "company": "希捷科技",
+      "city": "北京",
+      "score": 10,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_puekklr27afq",
+      "excluded": ""
+    },
+    {
+      "title": "车辆系统架构实习生",
+      "company": "博世中国",
+      "city": "上海",
+      "score": 6,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_gvmtoy6em4vj",
+      "excluded": ""
+    },
+    {
+      "title": "雅思托福基础老师",
+      "company": "思麦儿教育",
+      "city": "上海",
+      "score": 4,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_xx1rcklcaj8f",
+      "excluded": ""
+    },
+    {
+      "title": "芯片架构与性能仿真实习生",
+      "company": "寒序科技",
+      "city": "北京",
+      "score": 14,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_1xd7c8ejeemg",
+      "excluded": ""
+    },
+    {
+      "title": "芯片架构师（ESL方向）(A25073A)",
+      "company": "小米",
+      "city": "上海",
+      "score": 3,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_tdznhstfxz1x",
+      "excluded": ""
+    },
+    {
+      "title": "太空算力芯片架构实习生",
+      "company": "观宇致远",
+      "city": "北京",
+      "score": 12,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_ptyymb4mowmo",
+      "excluded": ""
+    },
+    {
+      "title": "Agent 架构工程师实习生",
+      "company": "新浪微博",
+      "city": "北京",
+      "score": 35,
+      "tier": "优先投",
+      "url": "https://www.shixiseng.com/intern/inn_kh3hpcowvbld",
+      "excluded": ""
+    },
+    {
+      "title": "Java开发实习生-【基础体验】",
+      "company": "快手",
+      "city": "北京",
+      "score": 29,
+      "tier": "优先投",
+      "url": "https://www.shixiseng.com/intern/inn_mxpjhbzzcgwr",
+      "excluded": ""
+    },
+    {
+      "title": "AIGC实习生（零基础包教）",
+      "company": "侃侃",
+      "city": "武汉",
+      "score": 13,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_vgzb8waxmqpw",
+      "excluded": ""
+    },
+    {
+      "title": "平台架构PE实习生-前端方向",
+      "company": "小红书",
+      "city": "北京",
+      "score": 14,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_rjpjw5ooph3i",
+      "excluded": ""
+    },
+    {
+      "title": "平台架构PE实习生-前端方向",
+      "company": "小红书",
+      "city": "上海",
+      "score": 14,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_x4w5qdjnqlci",
+      "excluded": ""
+    },
+    {
+      "title": "自动驾驶软甲架构实习生-XC",
+      "company": "博世中国",
+      "city": "苏州",
+      "score": 18,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_y1qses1gmv1p",
+      "excluded": ""
+    },
+    {
+      "title": "大模型工程架构研发实习生",
+      "company": "百度",
+      "city": "北京",
+      "score": 7,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_cytsaaolag0f",
+      "excluded": ""
+    },
+    {
+      "title": "大模型工程架构研发实习生",
+      "company": "百度",
+      "city": "北京",
+      "score": 13,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_zobj7yel8qln",
+      "excluded": ""
+    },
+    {
+      "title": "基础翻译/格式编辑排版实习生",
+      "company": "远誉翻译",
+      "city": "上海",
+      "score": 6,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_eo4qhyb14z01",
+      "excluded": ""
+    },
+    {
+      "title": "新媒体视频编辑实习生",
+      "company": "开普云",
+      "city": "北京",
+      "score": 6,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_zo4gvnyv5q4e",
+      "excluded": ""
+    },
+    {
+      "title": "翻译项目助理",
+      "company": "云在商鹊",
+      "city": "南京",
+      "score": 2,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_bz7jc2x36yd6",
+      "excluded": ""
+    },
+    {
+      "title": "后台质控",
+      "company": "知见云",
+      "city": "成都",
+      "score": 7,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_bpaqq3lzx4ox",
+      "excluded": ""
+    },
+    {
+      "title": "视频剪辑实习生",
+      "company": "量子云",
+      "city": "深圳",
+      "score": 6,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_srd6kgtzvaxc",
+      "excluded": ""
+    },
+    {
+      "title": "量化研究实习生",
+      "company": "华映量云",
+      "city": "成都",
+      "score": 10,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_4vo8ub4fuuds",
+      "excluded": ""
+    },
+    {
+      "title": "市场部实习生",
+      "company": "紫光云",
+      "city": "北京",
+      "score": 11,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_seuf4vsqdlke",
+      "excluded": ""
+    },
+    {
+      "title": "采购商务实习-北京-00857",
+      "company": "紫光云",
+      "city": "北京",
+      "score": 10,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_ddyjsvutdvlv",
+      "excluded": ""
+    }
+  ]
+}

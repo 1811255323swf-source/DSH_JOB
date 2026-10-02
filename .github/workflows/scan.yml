@@ -1,0 +1,85 @@
+name: cpp-intern-radar
+
+# 云端定时扫描：GitHub 的服务器按点执行，本地电脑无需开机。
+# cron 一律用 UTC：北京时间 = UTC + 8
+on:
+  schedule:
+    - cron: '0 0 * * *'    # 北京 08:00 早报
+    - cron: '0 10 * * *'   # 北京 18:00 晚报
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: '本轮最多输出岗位数'
+        required: false
+        default: '10'
+      enrich:
+        description: '详情页富化上限（越大越慢越全）'
+        required: false
+        default: '60'
+      no_mail:
+        description: '只扫描不发邮件（true/false）'
+        required: false
+        default: 'false'
+      curated:
+        description: '人工核实轮清单文件（留空则走自动扫描），例如 data/round-2026-10-02.json'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cpp-intern-radar
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: 拉取仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 离线自检（不联网，秒级）
+        run: node test/run-tests.mjs
+
+      - name: 扫描岗位并发送邮件
+        env:
+          # 在仓库 Settings → Secrets and variables → Actions 里配置：
+          #   GMAIL_USER         = 你的 Gmail 地址
+          #   GMAIL_APP_PASSWORD = Gmail 应用专用密码（16 位，开启两步验证后生成）
+          #   MAIL_TO            = 收件地址（可省略，默认发给 GMAIL_USER）
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          ARGS="--task scan --limit ${{ github.event.inputs.limit || '10' }} --min 6 --enrich ${{ github.event.inputs.enrich || '60' }}"
+          if [ -n "${{ github.event.inputs.curated }}" ]; then ARGS="$ARGS --curated ${{ github.event.inputs.curated }}"; fi
+          if [ "${{ github.event.inputs.no_mail }}" = "true" ]; then ARGS="$ARGS --no-mail"; fi
+          node src/main.js $ARGS
+
+      - name: 提交报告与去重台账
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add output state || true
+          if git diff --cached --quiet; then
+            echo "本次没有变化，跳过提交"
+          else
+            git commit -m "chore(radar): 报告与台账 $(date -u +%Y-%m-%dT%H:%MZ) [skip ci]"
+            git push
+          fi
+
+      - name: 上传报告产物
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpp-intern-radar-report
+          path: output/
+          retention-days: 30

@@ -1,0 +1,17 @@
+{
+  "name": "cpp-intern-radar",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "云端定时扫描 C++/Linux/网络/基础架构方向实习岗位，按候选人画像打分、去重并通过 Gmail 通知",
+  "scripts": {
+    "start": "node src/main.js --task scan",
+    "dry": "node src/main.js --task scan --dry-run",
+    "test": "node test/run-tests.mjs",
+    "collect": "node src/main.js --task collect-only"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {}
+}

@@ -1,0 +1,7 @@
+# 运行时产物：报告与台账会被 workflow 自动提交回仓库
+# 但本地调试产生的临时文件不提交
+output/*.txt
+output/mail-preview.txt
+*.log
+.DS_Store
+node_modules/
