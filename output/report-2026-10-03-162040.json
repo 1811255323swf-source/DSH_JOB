@@ -1,0 +1,804 @@
+{
+  "runAt": "2026-10-03T08:20:40.683Z",
+  "beijingDate": "2026-10-03",
+  "stats": {
+    "bySource": {
+      "智联招聘": 24,
+      "实习僧": 13
+    },
+    "byTier": {
+      "长期备选": 24,
+      "优先投": 3,
+      "观察": 10
+    },
+    "wuhan": 20,
+    "priority": 3
+  },
+  "collectedCount": 162,
+  "scoredCount": 60,
+  "selectedCount": 10,
+  "mail": {
+    "sent": false,
+    "skipped": true,
+    "reason": "no-new-jobs"
+  },
+  "errors": [],
+  "selected": [
+    {
+      "tier": "优先投",
+      "score": 34,
+      "company": "深圳震有科技股份有限公司",
+      "title": "软件工程师（优秀应届生可考虑）",
+      "city": "深圳·光明·凤凰",
+      "url": "https://www.zhaopin.com/jobdetail/CC504407930J40880613707.htm",
+      "source": "智联招聘",
+      "companyType": "中小/成长型（500-999人、民营）",
+      "schoolGate": "本科友好：本科以上",
+      "durationNote": "未标注",
+      "matchPoints": [
+        "C++",
+        "数据结构与算法",
+        "Linux",
+        "Socket 网络编程",
+        "TCP/IP",
+        "数据库",
+        "网络服务端"
+      ],
+      "gaps": [
+        "TCP 三次握手/四次挥手、拥塞控制与抓包分析（wireshark + tcpdump）",
+        "MySQL 索引与事务 + 手写一个简易 KV 存储",
+        "Linux 内核模块与字符设备驱动入门"
+      ],
+      "whyWorth": "JD 命中方向关键词：C++、网络编程、TCP/IP；公司类型符合偏好：500-999人、民营；学历门槛友好（本科以上）；中小/成长型（500-999人、民营）；本科友好：本科以上；综合评分 34（优先投）",
+      "publishOrUpdateDate": ""
+    },
+    {
+      "tier": "优先投",
+      "score": 31,
+      "company": "华钧广汇",
+      "title": "C++开发实习生",
+      "city": "北京",
+      "url": "https://www.shixiseng.com/intern/inn_thfrss8yrvkm",
+      "source": "实习僧",
+      "companyType": "未标注",
+      "schoolGate": "未明确",
+      "durationNote": "3 个月 / 每周 4 天（时长较短，与寒假计划兼容）",
+      "matchPoints": [
+        "C++",
+        "Linux",
+        "Socket 网络编程",
+        "多线程/线程池"
+      ],
+      "gaps": [
+        "线程池实现与 C++11 并发编程（mutex/condition_variable/atomic）",
+        "现代 C++（智能指针、移动语义、模板）与 STL 源码级理解"
+      ],
+      "whyWorth": "信息较新（10 天内刷新）；岗位名直接命中方向：C++；标题即为实习岗；时长：3 个月 / 每周 4 天（时长较短，与寒假计划兼容）；综合评分 31（优先投）",
+      "publishOrUpdateDate": "2026-09-22 10:05:09"
+    },
+    {
+      "tier": "长期备选",
+      "score": 31,
+      "company": "武汉智象机器人有限公司",
+      "title": "软件开发工程师（实习生）",
+      "city": "武汉·江夏",
+      "url": "https://www.zhaopin.com/jobdetail/CC437947630J40711542611.htm",
+      "source": "智联招聘",
+      "companyType": "中小/成长型（20-99人、民营）",
+      "schoolGate": "本科友好：本科及以上",
+      "durationNote": "6 个月 / 每周 5 天（长期，与寒假约 1 个多月短期计划冲突，建议按长期实习准备）",
+      "matchPoints": [
+        "C++",
+        "数据结构与算法",
+        "Linux",
+        "多线程/线程池",
+        "数据库"
+      ],
+      "gaps": [
+        "MySQL 索引与事务 + 手写一个简易 KV 存储",
+        "Redis 常用数据结构与缓存穿透/雪崩处理",
+        "线程池实现与 C++11 并发编程（mutex/condition_variable/atomic）"
+      ],
+      "whyWorth": "JD 命中方向关键词：网络通信、多线程；武汉本地岗位（地点优先）；标题即为实习岗；地点在武汉；中小/成长型（20-99人、民营）；本科友好：本科及以上；时长：6 个月 / 每周 5 天（长期，与寒假约 1 个多月短期计划冲突，建议按长期实习准备）；综合评分 31（长期备选）",
+      "publishOrUpdateDate": ""
+    },
+    {
+      "tier": "长期备选",
+      "score": 27,
+      "company": "武汉浩洋启汇机械科技有限公司",
+      "title": "嵌入式开发实习生",
+      "city": "武汉·洪山·九峰",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1402052680J41019845604.htm",
+      "source": "智联招聘",
+      "companyType": "中小/成长型（民营）",
+      "schoolGate": "本科友好：在读本科",
+      "durationNote": "未标注",
+      "matchPoints": [
+        "C++"
+      ],
+      "gaps": [
+        "嵌入式 Linux 交叉编译与串口/CAN 通信基础"
+      ],
+      "whyWorth": "JD 命中方向关键词：C++、C/C++；武汉本地岗位（地点优先）；标题即为实习岗；地点在武汉；中小/成长型（民营）；本科友好：在读本科；综合评分 27（长期备选）",
+      "publishOrUpdateDate": ""
+    },
+    {
+      "tier": "长期备选",
+      "score": 19,
+      "company": "武汉赛摩博晟信息科技有限公司",
+      "title": "AI技术应用研究实习生（27届）",
+      "city": "武汉·江夏",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1348672480J40832835416.htm",
+      "source": "智联招聘",
+      "companyType": "中小/成长型（民营）",
+      "schoolGate": "本科友好：本科及以上",
+      "durationNote": "未标注",
+      "matchPoints": [
+        "C++",
+        "数据结构与算法"
+      ],
+      "gaps": [
+        "现代 C++（智能指针、移动语义、模板）与 STL 源码级理解",
+        "Linux 内核模块与字符设备驱动入门"
+      ],
+      "whyWorth": "JD 命中方向关键词：C++、C/C++；武汉本地岗位（地点优先）；标题即为实习岗；地点在武汉；中小/成长型（民营）；本科友好：本科及以上；综合评分 19（长期备选）",
+      "publishOrUpdateDate": ""
+    },
+    {
+      "tier": "长期备选",
+      "score": 18,
+      "company": "燧石投资管理(武汉)有限公司",
+      "title": "高频量化策略实习生",
+      "city": "武汉·江岸",
+      "url": "https://www.zhaopin.com/jobdetail/CC447976580J40909867408.htm",
+      "source": "智联招聘",
+      "companyType": "中小/成长型（20-99人、民营）",
+      "schoolGate": "未明确",
+      "durationNote": "3 个月 / 每周 5 天（时长较短，与寒假计划兼容）",
+      "matchPoints": [
+        "C++",
+        "数据结构与算法"
+      ],
+      "gaps": [
+        "补齐 TCP/Reactor/数据库（当前正在补的四项）"
+      ],
+      "whyWorth": "JD 命中方向关键词：C++、C/C++；武汉本地岗位（地点优先）；标题即为实习岗；地点在武汉；中小/成长型（20-99人、民营）；时长：3 个月 / 每周 5 天（时长较短，与寒假计划兼容）；综合评分 18（长期备选）",
+      "publishOrUpdateDate": ""
+    },
+    {
+      "tier": "长期备选",
+      "score": 18,
+      "company": "湖北点润智能科技有限公司",
+      "title": "计算机视觉算法工程师实习生",
+      "city": "武汉·洪山·关山",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1501944180J40952231608.htm",
+      "source": "智联招聘",
+      "companyType": "中小/成长型（20-99人、民营）",
+      "schoolGate": "未明确",
+      "durationNote": "3 个月 / 每周 5 天（时长较短，与寒假计划兼容）",
+      "matchPoints": [
+        "C++",
+        "数据结构与算法"
+      ],
+      "gaps": [
+        "Linux 内核模块与字符设备驱动入门"
+      ],
+      "whyWorth": "JD 命中方向关键词：C++、C/C++；武汉本地岗位（地点优先）；标题即为实习岗；地点在武汉；中小/成长型（20-99人、民营）；时长：3 个月 / 每周 5 天（时长较短，与寒假计划兼容）；综合评分 18（长期备选）",
+      "publishOrUpdateDate": ""
+    },
+    {
+      "tier": "长期备选",
+      "score": 16,
+      "company": "武汉京天电器有限公司",
+      "title": "宇树机器人训练实习生",
+      "city": "武汉·洪山·关山",
+      "url": "https://www.zhaopin.com/jobdetail/CC378293610J40813731205.htm",
+      "source": "智联招聘",
+      "companyType": "中小/成长型（20-99人、民营）",
+      "schoolGate": "本科友好：本科及以上",
+      "durationNote": "4 个月 / 每周 3 天",
+      "matchPoints": [
+        "C++"
+      ],
+      "gaps": [
+        "补齐 TCP/Reactor/数据库（当前正在补的四项）"
+      ],
+      "whyWorth": "JD 命中方向关键词：C++；武汉本地岗位（地点优先）；标题即为实习岗；地点在武汉；中小/成长型（20-99人、民营）；本科友好：本科及以上；时长：4 个月 / 每周 3 天；综合评分 16（长期备选）",
+      "publishOrUpdateDate": ""
+    },
+    {
+      "tier": "长期备选",
+      "score": 43,
+      "company": "山东祥辰科技集团有限公司",
+      "title": "python后端开发工程师",
+      "city": "济南·历城·港沟",
+      "url": "https://www.zhaopin.com/jobdetail/CC203781520J40902205505.htm",
+      "source": "智联招聘",
+      "companyType": "中小/成长型（20-99人、民营）",
+      "schoolGate": "本科友好：在校生",
+      "durationNote": "未标注",
+      "matchPoints": [
+        "C++",
+        "数据结构与算法",
+        "Linux",
+        "Socket 网络编程",
+        "TCP/IP",
+        "数据库",
+        "网络服务端"
+      ],
+      "gaps": [
+        "TCP 三次握手/四次挥手、拥塞控制与抓包分析（wireshark + tcpdump）",
+        "MySQL 索引与事务 + 手写一个简易 KV 存储",
+        "Redis 常用数据结构与缓存穿透/雪崩处理"
+      ],
+      "whyWorth": "标题主语言非 C++，但 JD 主体是 C++ 开发；岗位名直接命中方向：后端开发；届次友好：面向在校生；中小/成长型（20-99人、民营）；本科友好：在校生；综合评分 43（长期备选）",
+      "publishOrUpdateDate": ""
+    },
+    {
+      "tier": "长期备选",
+      "score": 29,
+      "company": "绿建信息",
+      "title": "C++开发实习生",
+      "city": "苏州",
+      "url": "https://www.shixiseng.com/intern/inn_acfkqreqahsk",
+      "source": "实习僧",
+      "companyType": "未标注",
+      "schoolGate": "本科友好：本科以上",
+      "durationNote": "8 个月 / 每周 5 天（长期，与寒假约 1 个多月短期计划冲突，建议按长期实习准备）",
+      "matchPoints": [
+        "C++",
+        "Linux",
+        "TCP/IP",
+        "网络服务端"
+      ],
+      "gaps": [
+        "TCP 三次握手/四次挥手、拥塞控制与抓包分析（wireshark + tcpdump）",
+        "Qt 基础控件与信号槽（工业软件/工具类岗位常见要求）"
+      ],
+      "whyWorth": "发布/刷新已 339 天，投递前建议先确认是否仍在招；岗位名直接命中方向：C++；标题即为实习岗；本科友好：本科以上；时长：8 个月 / 每周 5 天（长期，与寒假约 1 个多月短期计划冲突，建议按长期实习准备）；综合评分 29（长期备选）",
+      "publishOrUpdateDate": "2025-10-28 11:25:02"
+    }
+  ],
+  "allScored": [
+    {
+      "title": "C/C++开发工程师",
+      "company": "中科创达软件股份有限公司",
+      "city": "武汉·洪山·九峰",
+      "score": 40,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CC285451210J40875292111.htm",
+      "excluded": ""
+    },
+    {
+      "title": "C/C++/JAVA/Python/大数据/AI/开发/测试（一二线城市均有岗位需求）",
+      "company": "外企德科数字技术有限公司",
+      "city": "武汉·江夏·豹澥",
+      "score": 44,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1480117890J40901687305.htm",
+      "excluded": ""
+    },
+    {
+      "title": "高频量化策略实习生",
+      "company": "燧石投资管理(武汉)有限公司",
+      "city": "武汉·江岸",
+      "score": 18,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CC447976580J40909867408.htm",
+      "excluded": ""
+    },
+    {
+      "title": "华为软件开发",
+      "company": "华为技术有限公司",
+      "city": "武汉·江夏·豹澥",
+      "score": 21,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CC000542940J40891179514.htm",
+      "excluded": ""
+    },
+    {
+      "title": "AI Agent后端软件开发岗",
+      "company": "外企德科数字技术有限公司",
+      "city": "武汉·江夏·豹澥",
+      "score": 36,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1480117890J40894688405.htm",
+      "excluded": ""
+    },
+    {
+      "title": "嵌入式开发实习生",
+      "company": "武汉浩洋启汇机械科技有限公司",
+      "city": "武汉·洪山·九峰",
+      "score": 27,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1402052680J41019845604.htm",
+      "excluded": ""
+    },
+    {
+      "title": "27届校招-GIS全栈工程师（空间智能方向）",
+      "company": "数字政通",
+      "city": "武汉·江夏·佛祖岭",
+      "score": 22,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CC120364790J40941043712.htm",
+      "excluded": ""
+    },
+    {
+      "title": "c++开发工程师",
+      "company": "楚天龙股份有限公司湖北分公司",
+      "city": "武汉·武昌",
+      "score": 40,
+      "tier": "优先投",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1227301820J40902377905.htm",
+      "excluded": ""
+    },
+    {
+      "title": "c++开发工程师",
+      "company": "科锐尔人力资源服务(苏州)有限公司",
+      "city": "武汉·江夏·豹澥",
+      "score": 30,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CC453635220J40921876203.htm",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发实习生",
+      "company": "中望软件",
+      "city": "武汉·洪山·关山",
+      "score": 25,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CC151294010J40882897414.htm",
+      "excluded": ""
+    },
+    {
+      "title": "计算机视觉算法工程师实习生",
+      "company": "湖北点润智能科技有限公司",
+      "city": "武汉·洪山·关山",
+      "score": 18,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1501944180J40952231608.htm",
+      "excluded": ""
+    },
+    {
+      "title": "AI技术应用研究实习生（27届）",
+      "company": "武汉赛摩博晟信息科技有限公司",
+      "city": "武汉·江夏",
+      "score": 19,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1348672480J40832835416.htm",
+      "excluded": ""
+    },
+    {
+      "title": "宇树机器人训练实习生",
+      "company": "武汉京天电器有限公司",
+      "city": "武汉·洪山·关山",
+      "score": 16,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CC378293610J40813731205.htm",
+      "excluded": ""
+    },
+    {
+      "title": "软件开发工程师（实习生）",
+      "company": "武汉智象机器人有限公司",
+      "city": "武汉·江夏",
+      "score": 31,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CC437947630J40711542611.htm",
+      "excluded": ""
+    },
+    {
+      "title": "27届校招-AI视频算法工程师",
+      "company": "数字政通",
+      "city": "武汉·江夏·佛祖岭",
+      "score": 24,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CC120364790J40941044212.htm",
+      "excluded": ""
+    },
+    {
+      "title": "JAVA/C++/C/Python 14薪双休应届生可投",
+      "company": "外企德科数字技术有限公司",
+      "city": "武汉·江夏·豹澥",
+      "score": 17,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1480117890J40901672205.htm",
+      "excluded": ""
+    },
+    {
+      "title": "软件开发工程师",
+      "company": "科锐尔人力资源服务(苏州)有限公司",
+      "city": "武汉·洪山·九峰",
+      "score": 28,
+      "tier": "冲刺",
+      "url": "https://www.zhaopin.com/jobdetail/CC453635220J40914324803.htm",
+      "excluded": "普通一本不匹配的学校/学历门槛：985、211、双一流"
+    },
+    {
+      "title": "软件开发工程师",
+      "company": "外企德科数字技术有限公司",
+      "city": "武汉·江夏·豹澥",
+      "score": 21,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CCL1480117890J40863177105.htm",
+      "excluded": ""
+    },
+    {
+      "title": "python后端开发工程师",
+      "company": "山东祥辰科技集团有限公司",
+      "city": "济南·历城·港沟",
+      "score": 43,
+      "tier": "长期备选",
+      "url": "https://www.zhaopin.com/jobdetail/CC203781520J40902205505.htm",
+      "excluded": ""
+    },
+    {
+      "title": "27届校招-AI大模型研发工程师",
+      "company": "数字政通",
+      "city": "武汉·江夏·佛祖岭",
+      "score": 12,
+      "tier": "观察",
+      "url": "https://www.zhaopin.com/jobdetail/CC120364790J40941045112.htm",
+      "excluded": ""
+    },
+    {
+      "title": "全栈开发工程师",
+      "company": "安徽百得思维信息科技有限公司",
+      "city": "合肥·蜀山·高刘",
+      "score": 17,
+      "tier": "观察",
+      "url": "https://www.zhaopin.com/jobdetail/CC571829420J40901476005.htm",
+      "excluded": ""
+    },
+    {
+      "title": "初级嵌入式工程师",
+      "company": "武汉博格纳科技有限公司",
+      "city": "武汉·蔡甸·沌阳",
+      "score": 12,
+      "tier": "观察",
+      "url": "https://www.zhaopin.com/jobdetail/CC533121680J40653715201.htm",
+      "excluded": ""
+    },
+    {
+      "title": "软件工程师（优秀应届生可考虑）",
+      "company": "深圳震有科技股份有限公司",
+      "city": "深圳·光明·凤凰",
+      "score": 34,
+      "tier": "优先投",
+      "url": "https://www.zhaopin.com/jobdetail/CC504407930J40880613707.htm",
+      "excluded": ""
+    },
+    {
+      "title": "产品专员（容器云/AI基础设施方向）",
+      "company": "广州市品高软件股份有限公司",
+      "city": "广州·黄埔·联和",
+      "score": 9,
+      "tier": "观察",
+      "url": "https://www.zhaopin.com/jobdetail/CC120195160J40916335003.htm",
+      "excluded": ""
+    },
+    {
+      "title": "软件开发工程师",
+      "company": "科锐尔人力资源服务(苏州)有限公司",
+      "city": "成都·郫都·合作街道",
+      "score": 26,
+      "tier": "冲刺",
+      "url": "https://www.zhaopin.com/jobdetail/CC453635220J40914333003.htm",
+      "excluded": "普通一本不匹配的学校/学历门槛：985、211、双一流"
+    },
+    {
+      "title": "java开发工程师(所属单位航天开元招聘岗位，可实习)",
+      "company": "航天工业发展股份有限公司北京分公司",
+      "city": "北京·石景山·古城",
+      "score": 27,
+      "tier": "冲刺",
+      "url": "https://www.zhaopin.com/jobdetail/CC307936330J40823364116.htm",
+      "excluded": "普通一本不匹配的学校/学历门槛：985、硕士及以上"
+    },
+    {
+      "title": "后端工程师",
+      "company": "北京电力自动化设备有限公司",
+      "city": "杭州·上城·南星",
+      "score": 26,
+      "tier": "观察",
+      "url": "https://www.zhaopin.com/jobdetail/CC285249580J40850649901.htm",
+      "excluded": ""
+    },
+    {
+      "title": "软件开发工程师",
+      "company": "科锐尔人力资源服务(苏州)有限公司",
+      "city": "东莞·大朗镇",
+      "score": 24,
+      "tier": "冲刺",
+      "url": "https://www.zhaopin.com/jobdetail/CC453635220J40914325003.htm",
+      "excluded": "普通一本不匹配的学校/学历门槛：985、211、双一流"
+    },
+    {
+      "title": "软件开发工程师",
+      "company": "科锐尔人力资源服务(苏州)有限公司",
+      "city": "上海·青浦·金泽",
+      "score": 26,
+      "tier": "冲刺",
+      "url": "https://www.zhaopin.com/jobdetail/CC453635220J40914324903.htm",
+      "excluded": "普通一本不匹配的学校/学历门槛：985、211、双一流"
+    },
+    {
+      "title": "软件开发工程师",
+      "company": "科锐尔人力资源服务(苏州)有限公司",
+      "city": "深圳·龙岗·坂田",
+      "score": 26,
+      "tier": "冲刺",
+      "url": "https://www.zhaopin.com/jobdetail/CC453635220J40914215703.htm",
+      "excluded": "普通一本不匹配的学校/学历门槛：985、211、双一流"
+    },
+    {
+      "title": "C++实习生",
+      "company": "挚信资本",
+      "city": "武汉",
+      "score": 22,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_jqzivj8yv7gv",
+      "excluded": "信息过期（473 天未刷新）"
+    },
+    {
+      "title": "AIGC实习生（零基础包教）",
+      "company": "侃侃",
+      "city": "武汉",
+      "score": 9,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_vgzb8waxmqpw",
+      "excluded": ""
+    },
+    {
+      "title": "c/c++初级工程师",
+      "company": "英歌智达",
+      "city": "杭州",
+      "score": 8,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_kunqoali4shq",
+      "excluded": "信息过期（1124 天未刷新）"
+    },
+    {
+      "title": "云基础架构实习生-重庆",
+      "company": "UAES",
+      "city": "重庆",
+      "score": 25,
+      "tier": "冲刺",
+      "url": "https://www.shixiseng.com/intern/inn_flwfoncfykac",
+      "excluded": "普通一本不匹配的学校/学历门槛：985、211、硕士研究生"
+    },
+    {
+      "title": "云存储架构实习生",
+      "company": "希捷科技",
+      "city": "北京",
+      "score": 6,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_puekklr27afq",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发实习生",
+      "company": "国准数据",
+      "city": "全国",
+      "score": 37,
+      "tier": "优先投",
+      "url": "https://www.shixiseng.com/intern/inn_fnr1v9ufxadb",
+      "excluded": "信息过期（1116 天未刷新）"
+    },
+    {
+      "title": "信息学编程辅导教师",
+      "company": "千秋文教",
+      "city": "全国",
+      "score": -12,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_hapcuwuyguhc",
+      "excluded": "普通一本不匹配的学校/学历门槛：985、双一流、NOI"
+    },
+    {
+      "title": "c++实习生",
+      "company": "光鉴科技",
+      "city": "上海",
+      "score": 16,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_qofzzedr1w7x",
+      "excluded": "信息过期（1014 天未刷新）"
+    },
+    {
+      "title": "C/C++",
+      "company": "JANGTOP疆钍",
+      "city": "北京",
+      "score": 23,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_t9amj5pwriyp",
+      "excluded": ""
+    },
+    {
+      "title": "芯片架构与性能仿真实习生",
+      "company": "寒序科技",
+      "city": "北京",
+      "score": 16,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_1xd7c8ejeemg",
+      "excluded": "普通一本不匹配的学校/学历门槛：博士"
+    },
+    {
+      "title": "JAVA开发工程师",
+      "company": "云联接",
+      "city": "上海",
+      "score": -16,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_5quu58p0mj4k",
+      "excluded": "信息过期（941 天未刷新）"
+    },
+    {
+      "title": "C++软件开发工程师",
+      "company": "云联接",
+      "city": "上海",
+      "score": 30,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_wn2okull4w3p",
+      "excluded": "信息过期（1242 天未刷新）"
+    },
+    {
+      "title": "C++实习生",
+      "company": "薪火科技",
+      "city": "合肥",
+      "score": 19,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_m4wxsaut5z3t",
+      "excluded": "信息过期（700 天未刷新）"
+    },
+    {
+      "title": "C++实习生",
+      "company": "HRG合肥研究院",
+      "city": "合肥",
+      "score": 16,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_jziqzvpfbggs",
+      "excluded": "信息过期（1242 天未刷新）"
+    },
+    {
+      "title": "C++实习生",
+      "company": "大洋宝隆",
+      "city": "北京",
+      "score": 12,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_xv9pwd3qeudh",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发实习生",
+      "company": "绿建信息",
+      "city": "苏州",
+      "score": 29,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_acfkqreqahsk",
+      "excluded": ""
+    },
+    {
+      "title": "C++ 实习生",
+      "company": "华融通汇",
+      "city": "深圳",
+      "score": 18,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_t7mcw7qvlcox",
+      "excluded": "信息过期（439 天未刷新）"
+    },
+    {
+      "title": "C++开发工程师",
+      "company": "伯兄投资",
+      "city": "上海",
+      "score": 13,
+      "tier": "冲刺",
+      "url": "https://www.shixiseng.com/intern/inn_ouqdtli0cofn",
+      "excluded": "普通一本不匹配的学校/学历门槛：985、211"
+    },
+    {
+      "title": "C++授课教师",
+      "company": "伯禹教育",
+      "city": "深圳",
+      "score": 12,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_d3tbguexjtoh",
+      "excluded": "信息过期（1242 天未刷新）"
+    },
+    {
+      "title": "C++开发实习生",
+      "company": "智融信达",
+      "city": "深圳",
+      "score": 13,
+      "tier": "冲刺",
+      "url": "https://www.shixiseng.com/intern/inn_jej7e2fpgssk",
+      "excluded": "普通一本不匹配的学校/学历门槛：985、硕士及以上"
+    },
+    {
+      "title": "C++开发实习生",
+      "company": "华钧广汇",
+      "city": "北京",
+      "score": 31,
+      "tier": "优先投",
+      "url": "https://www.shixiseng.com/intern/inn_thfrss8yrvkm",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发（可转正）",
+      "company": "墨泊可士",
+      "city": "广州",
+      "score": 22,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_nftdftzj91we",
+      "excluded": ""
+    },
+    {
+      "title": "C++开发（可转正）",
+      "company": "蜀俊博凌",
+      "city": "北京",
+      "score": 22,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_uznyfvoranci",
+      "excluded": ""
+    },
+    {
+      "title": "图像C++开发实习生",
+      "company": "百度",
+      "city": "北京",
+      "score": 22,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_qijsgbbnvkr2",
+      "excluded": ""
+    },
+    {
+      "title": "C++高级开发工程师",
+      "company": "蔷薇科技",
+      "city": "杭州",
+      "score": 27,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_blafr4q87zl3",
+      "excluded": ""
+    },
+    {
+      "title": "C/C++软件工程师",
+      "company": "TRON",
+      "city": "上海",
+      "score": 16,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_7doivpuogcxd",
+      "excluded": "信息过期（1130 天未刷新）"
+    },
+    {
+      "title": "C++开发（可转正）",
+      "company": "艾思克瑞",
+      "city": "西安",
+      "score": 22,
+      "tier": "长期备选",
+      "url": "https://www.shixiseng.com/intern/inn_vto1ygvv7rig",
+      "excluded": ""
+    },
+    {
+      "title": "运维架构师",
+      "company": "钧誉资产",
+      "city": "广州",
+      "score": 3,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_iqkwst5ozmga",
+      "excluded": ""
+    },
+    {
+      "title": "基础部英语教师",
+      "company": "思麦儿教育",
+      "city": "上海",
+      "score": -7,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_ybchsj04qdaw",
+      "excluded": "信息过期（1047 天未刷新）"
+    },
+    {
+      "title": "基础运营实习生",
+      "company": "焦点科技",
+      "city": "南京",
+      "score": -5,
+      "tier": "观察",
+      "url": "https://www.shixiseng.com/intern/inn_rtnjypdj3xfj",
+      "excluded": ""
+    }
+  ]
+}
